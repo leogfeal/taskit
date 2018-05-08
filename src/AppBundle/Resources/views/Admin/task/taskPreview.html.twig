@@ -1,0 +1,131 @@
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form-group">
+            <p><b>Project:</b> {{task.objProyect}}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form-group">
+            <p><b>Task:</b> {{task.name}}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-5">
+        <div class="form-group">
+            <p><b>Start Date:</b> {{task.startTime|date('m/d/Y')}}</p>
+        </div>
+    </div>
+    <div class="col-sm-5">
+        <div class="form-group">
+            <p><b>End Date:</b> {{task.endTime|date('m/d/Y')}}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-5">
+        <div class="form-group">
+            <p><b>Created By:</b> {{task.userCreatedTask}}</p>
+        </div>
+    </div>
+    <div class="col-sm-5">
+        <div class="form-group">
+            <p><b>Assigned To:</b> {{task.user}}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-5">
+        <div class="form-group">
+            <p><b>Status:</b> {{task.state}}</p>
+        </div>
+    </div>
+    <div class="col-sm-5">
+        <div class="form-group">
+            <p><b>Priority:</b> {{task.priority}}</p>
+        </div>
+    </div>
+</div>
+
+<p><b>Description:</b> {{task.description}}</p>
+{% if task.notes|length > 0 %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="panel-title expand">
+                <div class="right-arrow pull-right">+</div>
+                <a href="#">Notes <span class="badge">{{ notes|length }}</span></a>
+            </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse" style="margin-top: 2%">
+            <table id="data-table-notes" class="table table-striped table-hover dt-responsive display" cellspacing="0" width="100%">
+            </table>
+            <br>
+    </div></div>
+{% endif %}
+
+{%if attached|length > 0%}
+    <b>Attached:</b>
+    <table id="data-table" class="table table-striped table-hover dt-responsive display" cellspacing="0">
+        <thead>
+        <tr>
+            <th class="all">File</th>
+            <th class="all">Download</th>
+        </tr>
+        </thead>
+        <tbody>
+        {%for item in attached%}
+            <tr>
+                <td>
+                    {{ item.name }}
+                </td>
+                <td>
+                    <a href="{{ asset('img/attached/'~ item.attached) }}" download="{{ item.name }}">
+                        {% set img = item.attached|split('.') %}
+                        {{ img[img|length -1] }}
+                    </a>
+                </td>
+            </tr>
+        {%endfor%}
+        </tbody>
+    </table>
+{%endif%}
+<script>
+    {% if task.notes|length > 0 %}
+        taskit.eventExpandAccordion();
+        var dataSet = new Array();
+        {% for note in notes %}
+            var obj = [ '{{ note.createdOn|date('m/d/Y') }}' , '{{ note.user }}' , '{{ note.note }}'];
+            dataSet.push(obj);
+        {% endfor %}
+
+        var dataTableColumnsNotes = [
+            { title:"Created On" },
+            { title: "User"},
+            { title:"Note"}
+        ];
+
+        $('.modal-loading-notes').hide();
+        dataTable = $('table#data-table-notes').DataTable({
+            "language": {
+                "lengthMenu": Translator.trans('table.textselectcount', {'var': '_MENU_'}, 'admin_js'),
+                "zeroRecords": Translator.trans('table.noresult', {}, 'admin_js'),
+                "info": Translator.trans('table.textnumberpage', {'page': '_PAGE_', 'pages': '_PAGES_', 'total': '_TOTAL_'}, 'admin_js'),
+                "infoEmpty": Translator.trans('table.infoempty', {}, 'admin_js'),
+                "search": Translator.trans('search', {}, 'admin_js'),
+                "infoFiltered": Translator.trans('table.infofiltered', {'max': '_MAX_'}, 'admin_js'),
+                "processing": Translator.trans('table.processing', {}, 'admin_js'),
+                "paginate": {
+                    "next": Translator.trans('next', {}, 'admin_js'),
+                    "previous": Translator.trans('previous', {}, 'admin_js')
+                }
+            },
+            "order": [[ 0, "desc" ]],
+            "pageLength": 3,
+            "data": dataSet,
+            "columns": dataTableColumnsNotes,
+            "dom":'<"top">rt<"bottom"ip><"clear">'
+        });
+    {% endif %}
+</script>

@@ -1,0 +1,47 @@
+{% extends "::layout_email.html.twig" %}
+{% block title 'Reviewed Task'  %}
+{% block email_content %}
+    <table>
+        <tr>
+            <td>
+                <h3>Hi, {{ task.user.name }}</h3>
+                <p class="lead">Congrats!!!</p>
+                <p class="lead">This task has been marked as completed.</p>
+                <p class="lead"><b>Project:</b>{{ project }}</p>
+                <p class="lead"><b>Task:</b> {{ task.name }}</p>
+                <p class="lead"><b>Start Date:</b>{{task.startTime|date('m/d/Y')}}</p>
+                <p class="lead"><b>End Date:</b>{{task.endTime|date('m/d/Y')}}</p>
+                <p class="lead"><b>Created By:</b>{{task.userCreatedTask}}</p>
+                <p class="lead"><b>Priority:</b>{{task.priority}}</p>
+                <p class="lead"><b>Description:</b>{{task.description}}</p>
+
+                <table class="social" width="100%">
+                    <tr>
+                        <td>
+                            <table align="left" class="column">
+                                <tr>
+                                    <td>
+                                        <h5 class="">Contact Info:</h5>
+                                        <p>Phone: <strong>973.701.0520</strong><br/>
+                                            Email: <strong><a href="emailto:info@CubaArchive.org">info@CubaArchive.org</a></strong></p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table align="left" class="column">
+                                <tr>
+                                    <td>
+                                        <p>Address: <strong>P.O. Box 612224</strong><br/>
+                                            <strong>North Miami FL 33261-2224</strong>
+                                    </td>
+                                </tr>
+                            </table><!-- /column 2 -->
+                            <span class="clear"></span>
+                        </td>
+                    </tr>
+                </table><!-- /social & contact -->
+
+            </td>
+        </tr>
+    </table>
+{% endblock %}
+

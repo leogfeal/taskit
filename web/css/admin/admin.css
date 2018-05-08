@@ -1,0 +1,204 @@
+.admin-nav-top{
+    margin-bottom: 0
+}
+.color-sub-menu{
+    color: #D9534F;
+}
+a.color-sub-menu:hover{
+    color: #D91111;    
+}
+.title-nav{
+    margin-top: 20px;
+}
+.a-nav{
+    padding: 5px;
+    min-width: 185px;
+}
+.wrapper-heigth{
+    min-height: 338px;
+}
+td.action{
+    padding-top: 2px!important;
+    padding-bottom: 2px!important;
+}
+.action ul{
+    left: auto;
+    right: 0;
+}
+.margin-none{
+    margin: 0!important;
+}
+.action-link{
+    color: #337AB7;
+}
+.action-link-delete{
+    color: #C53F4E;
+}
+.my-ceter{
+    text-align: center!important;
+}
+.modal-loading i, .modal-loading-view i{
+    color: #337ab7;
+}
+/*.callout-red{
+    border-left-color: #ce4844;
+     border-radius: 0;
+    border-style: solid;
+    border-width: 0px 0px 0px 5px;
+}*/
+.margin-top--2{
+    margin-top: -2px;
+}
+.errors-hide{
+    display: none;
+}
+.margin-bottom-15{
+    margin-bottom: 15px;
+}
+.breadcrumb > li + li::before {
+    color: #ccc;
+    content: "> ";
+    padding: 0 5px;
+}
+.color-white{
+    background-color: #ffffff!important;
+}
+.padding-top-0{
+    padding-top: 0!important;
+}
+.notification-users-online{
+    padding: 10px!important;
+}
+.notification-users-online:hover{
+    background-color: #F5F5F5;
+}
+/*Error page*/
+.ep-div-content{
+    text-align: center;
+}
+.ep-span-error{
+    font-size: 140px;
+}
+.ep-span-error-description{
+    font-size: 40px;
+}
+.ep-div-btn{
+    margin-top: 40px;    
+}
+.my-modal-body{
+    overflow-y: auto;
+    max-height: 300px;
+}
+/*End error page*/
+/*User page*/
+.user-profile{
+    width: 200px;
+    height: 191px;
+    line-height: 191px;
+}
+.user-profile img{
+    display: inline-block;
+    vertical-align: middle;
+}
+.user-div-profile{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+/*End user page*/
+/*Currency page*/
+.currency-btn-import{
+    margin: 3px 0 5px;
+    margin-left: 5px;
+}
+.img-profile {
+    width: 200px;
+    height: 191px;
+}
+.a-change-image {
+    position: relative;
+}
+
+.a-change-image input[type="file"] {
+    cursor: pointer;
+    direction: ltr;
+    font-size: 30px;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    left: 10px;
+    top: 0;
+    width: 100%;
+}
+/*End currency page*/
+/*Service page*/
+.service-image{
+    height: 150px;
+    width: 160px;
+}
+/*End service page*/
+/*Hostal page*/
+div.bootstrap-switch{
+    margin-left: 10px;
+}
+.hostal-front{
+    width: 400px;
+    height: 300px;
+}
+.hostal-owner{
+    width: 146px;
+    height: 140px;
+}
+/*End hostal page*/
+/*Users online*/
+table.users-online img{
+    width: 50px;
+    height: 50px;
+}
+/*End users online*/
+/*Loading*/
+.disable-search{
+    z-index: 100;
+    width: 100%;
+    height: 400%;
+    opacity: 0.6;
+    background-color: #ffffff;
+    position: absolute;    
+}
+.disable-img{
+    z-index: 200;
+    position: absolute;
+    top: 200px;
+}
+.div-disable-content{
+    display: none;
+    text-align: center;
+}
+.form-horizontal .sky-form{
+    border: 0px;
+    color: #333;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857;
+}
+
+.disable-search-modal{
+    z-index: 100;
+    width: 50%;
+    height: 50%;
+    opacity: 0.6;
+    background-color: #ffffff;
+    position: absolute;
+}
+.disable-img-modal{
+    z-index: 200;
+    position: absolute;
+    top: 100px;
+}
+.div-disable-content-modal{
+    display: none;
+    text-align: center;
+}
+@media (min-width: 768px){
+    #page-wrapper{margin: 0 0 0 0; !important}
+}

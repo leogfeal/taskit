@@ -1,0 +1,44 @@
+<div  class="modal fade bs-example-modal-lg" id="modalCompleteTask" tabindex="-1" role="dialog" data-keyboard = 'false' data-backdrop = 'static' aria-labelledby="modalViewLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalLabelCompleteTask">Completed Task</h4>
+      </div>
+
+      <div class="modal-body my-modal-body">
+          <div class="my-ceter modal-loading-completed-task" style="display: none"><i class="fa fa-spin fa-refresh fa-5x center-block"></i></div>
+        <div class="info-complete-task">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-info" role="alert">
+                        <span aria-hidden="true"><b>TASK: </b></span>
+                        <div id="text-task"></div>
+                    </div>
+
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <div>
+                            <label>Notes</label>:
+                        </div>
+                        <div>
+                            <textarea id="notes-complete-task" name="notes-complete-task" class="form-control" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <input type="hidden" id="task_id" name="task_id">
+           <input type="hidden" id="project_name_modal" name="project_name">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <a  id="a-modalCompleteTask" href="#" type="button" class="btn btn-primary">Complete Task</a>
+      </div>
+    </div>
+  </div>
+</div>

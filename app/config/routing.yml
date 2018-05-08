@@ -1,0 +1,47 @@
+admin:
+    resource: "@AppBundle/Resources/config/routing/admin.yml"
+    prefix:   /admin
+system:
+     resource: "@AppBundle/Resources/config/routing/system.yml"
+     prefix:   /system
+#JsTranslationBundle
+_bazinga_jstranslation:
+    resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
+
+#JsRoutingBundle 
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+#login
+login:
+    path:  /
+    defaults: { _controller: AppBundle:Admin/User:login }
+    options:
+        expose: true
+
+login_check:
+    path:   /login-check/
+
+logout:
+    path:   /logout/
+
+forget_password:
+    path:     /forgot-password/
+    defaults: { _controller: AppBundle:Admin/User:forgetPassword }
+
+check_email_forget_password:
+    path:  /email-check-forgot-pswd/
+    defaults: { _controller: AppBundle:Admin/User:emailCheckForgetPswd }
+    options:
+        expose: true
+
+forget_password_new_password:
+    path:     /forget-password/new-password/
+    defaults: { _controller: AppBundle:Admin/User:forgetPasswordNewPassword }
+
+check_code_forget_pswd:
+    path:  /code-check-forget-pswd/
+    defaults: { _controller: AppBundle:Admin/User:codeCheckForgetPswd }
+    options:
+        expose: true
+#end login

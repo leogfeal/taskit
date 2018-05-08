@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- If you delete this meta tag, Half Life 3 will never be released. -->
+    <meta name="viewport" content="width=device-width" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Welcome to Taskit</title>
+
+    <link href="http://taskit.cubaarchive.org/css/admin/email.css" type="text/css" rel="stylesheet"/>
+
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<!-- HEADER -->
+<table class="head-wrap" bgcolor="#ECF8FF">
+    <tr>
+        <td></td>
+        <td class="header container" >
+
+            <div class="content">
+                <table bgcolor="#ECF8FF">
+                    <tr>
+                        <td><img src="http://taskit.cubaarchive.org/img/logo_300x145.png"  width="150px" /></td>
+                    </tr>
+                </table>
+            </div>
+
+        </td>
+        <td></td>
+    </tr>
+</table><!-- /HEADER -->
+
+
+<!-- BODY -->
+<table class="body-wrap">
+    <tr>
+        <td></td>
+        <td class="container" bgcolor="#FFFFFF">
+
+            <div class="content">
+                <table>
+                    <tr>
+                        <td>
+                            <h3>Hi, {{ user.name }}</h3>
+                            <p class="lead">Welcome to Taskit</p>
+                            <p>Now you are part of our team. Please login into your account and change your password inmediately.</p><br/>
+                            <p>User: {{ user.username }}</p> <!---->
+                            <p>Pass: {{ password }}</p>
+                            <!-- Callout Panel -->
+                            <p class="callout">
+                                To visit your account clic in here <a href="http://taskit.cubaarchive.org">Taskit! &raquo;</a>
+                            </p><!-- /Callout Panel -->
+
+                            <!-- social & contact -->
+                            <table class="social" width="100%">
+                                <tr>
+                                    <td>
+
+                                        <!-- column 1 -->
+                                        <table align="left" class="column">
+                                            <tr>
+                                                <td>
+                                                    <h5 class="">Contact Info:</h5>
+                                                    <p>Phone: <strong>973.701.0520</strong><br/>
+                                                        Email: <strong><a href="emailto:info@CubaArchive.org">info@CubaArchive.org</a></strong></p>
+
+
+
+
+                                                </td>
+                                            </tr>
+                                        </table><!-- /column 1 -->
+
+                                        <!-- column 2 -->
+                                        <table align="left" class="column">
+                                            <tr>
+                                                <td>
+
+
+                                                    <p>Address: <strong>P.O. Box 612224</strong><br/>
+                                                        <strong>North Miami FL 33261-2224</strong>
+
+
+                                                </td>
+                                            </tr>
+                                        </table><!-- /column 2 -->
+
+                                        <span class="clear"></span>
+
+                                    </td>
+                                </tr>
+                            </table><!-- /social & contact -->
+
+                        </td>
+                    </tr>
+                </table>
+            </div><!-- /content -->
+
+        </td>
+        <td></td>
+    </tr>
+</table><!-- /BODY -->
+
+<!-- FOOTER -->
+<table class="footer-wrap">
+    <tr>
+        <td></td>
+        <td class="container">
+            <div class="content">
+                <table>
+                    <tr>
+                        <td align="center">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </td>
+        <td></td>
+    </tr>
+</table><!-- /FOOTER -->
+
+</body>
+</html>
+

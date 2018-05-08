@@ -1,0 +1,53 @@
+{% extends "::layout_email.html.twig" %}
+{% block title 'Removed Task' %}
+{% block email_content %}
+    <table>
+        <tr>
+            <td>
+                <h3>Hi, {{ name }}</h3>
+                This task: <b>{{ task }}</b> has been removed from your tasks.
+
+                <table class="social" width="100%">
+                    <tr>
+                        <td>
+
+                            <!-- column 1 -->
+                            <table align="left" class="column">
+                                <tr>
+                                    <td>
+                                        <h5 class="">Contact Info:</h5>
+                                        <p>Phone: <strong>973.701.0520</strong><br/>
+                                            Email: <strong><a href="emailto:info@CubaArchive.org">info@CubaArchive.org</a></strong></p>
+
+
+
+
+                                    </td>
+                                </tr>
+                            </table><!-- /column 1 -->
+
+                            <!-- column 2 -->
+                            <table align="left" class="column">
+                                <tr>
+                                    <td>
+
+
+                                        <p>Address: <strong>P.O. Box 612224</strong><br/>
+                                            <strong>North Miami FL 33261-2224</strong>
+
+
+                                    </td>
+                                </tr>
+                            </table><!-- /column 2 -->
+
+                            <span class="clear"></span>
+
+                        </td>
+                    </tr>
+                </table><!-- /social & contact -->
+
+            </td>
+        </tr>
+    </table>
+{% endblock %}
+

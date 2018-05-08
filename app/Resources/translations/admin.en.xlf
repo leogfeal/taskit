@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="es" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>admin.title.dashboard</source>
+                <target>Dashboard</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>main.panel</source>
+                <target>Dashboard</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>users</source>
+                <target>Our Team</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>phone</source>
+                <target>Phone</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>username</source>
+                <target>Username</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Name</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>options</source>
+                <target>Options</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>profile</source>
+                <target>Profile</target>
+            </trans-unit>
+            <trans-unit id="999">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="998">
+                <source><![CDATA[]]></source>
+                <target><![CDATA[]]></target>
+            </trans-unit>            
+        </body>
+    </file>
+</xliff>

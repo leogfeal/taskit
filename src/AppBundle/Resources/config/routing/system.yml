@@ -1,0 +1,121 @@
+dashboard:
+    path:     /
+    defaults: { _controller: AppBundle:Admin/Admin:dashboard }
+
+admin_get_ajax_left_menu_count:
+    path:     /ajax/left-menu/
+    defaults: { _controller: AppBundle:Admin/Admin:leftMenu }  
+    options:
+        expose: true
+
+#task
+system_tasks_created:
+    path:     /tasks-created/
+    defaults: { _controller: AppBundle:Admin/Task:tasks}
+    options:
+            expose: true
+
+system_get_ajax_tasks_created:
+    path:     /ajax/get-tasks-created/
+    defaults: { _controller: AppBundle:Admin/Task:getAjaxTasks }
+    options:
+        expose: true
+
+system_task_add:
+    path:     /tasks/add/
+    defaults: { _controller: AppBundle:Admin/Task:add }
+    options:
+            expose: true
+
+system_task_edit:
+    path:     /tasks/edit/{id}/{default}/
+    defaults: { _controller: AppBundle:Admin/Task:edit }
+    options:
+            expose: true
+
+admin_get_ajax_task:
+    path:     /ajax/get-task/
+    defaults: { _controller: AppBundle:Admin/Task:getAjaxTask }
+    options:
+        expose: true
+
+system_profile_edit:
+    path:     /profile/edit/{username}/
+    defaults: { _controller: AppBundle:Admin/User:editProfile }
+#end task
+#task assigned
+system_tasks_assigned:
+    path:     /tasks-assigned/
+    defaults: { _controller: AppBundle:Admin/Task:tasksAssigned}
+    options:
+            expose: true
+
+system_get_ajax_tasks_assigned:
+    path:     /ajax/get-tasks-assigned/
+    defaults: { _controller: AppBundle:Admin/Task:getAjaxTasksAssigned }
+    options:
+        expose: true
+
+system_task_assigned_resolved:
+    path:     /tasks-assigned/resolved/{id}/{default}/
+    defaults: { _controller: AppBundle:Admin/Task:resolvedMyTask }
+    options:
+            expose: true
+#end task assigned
+#taskNotes
+system_get_ajax_task_notes:
+    path:     /ajax/get-task-notes/
+    defaults: { _controller: AppBundle:Admin/Task:getAjaxTaskNotes }
+    options:
+        expose: true
+#end taskNotes
+
+#dashboard
+system_completed_task:
+    path:     /ajax/complete-task/
+    defaults: { _controller: AppBundle:Admin/Task:completeTask }
+    options:
+        expose: true
+
+system_ajax_task_assigned_resolved:
+    path:     /ajax/tasks-assigned/resolved/
+    defaults: { _controller: AppBundle:Admin/Task:ajaxResolvedTask }
+    options:
+            expose: true
+
+system_ajax_get_task_ready_for_test_mytask:
+    path:     /ajax/tasks-ready-for-test-mytask
+    defaults: { _controller: AppBundle:Admin/Admin:getAjaxTaskByStatusInMyTask }
+    options:
+            expose: true
+
+system_ajax_get_all_task_dashboard:
+    path:     /ajax/all-task-dashboard
+    defaults: { _controller: AppBundle:Admin/Admin:getAjaxAllTask }
+    options:
+            expose: true
+
+system_ajax_get_my_task_dashboard:
+    path:     /ajax/my-task-dashboard
+    defaults: { _controller: AppBundle:Admin/Admin:getAjaxMyTask }
+    options:
+            expose: true
+
+system_ajax_get_task_ready_for_test_tab_manager:
+    path:     /ajax/tasks-ready-for-test-tab-manager
+    defaults: { _controller: AppBundle:Admin/Admin:getAjaxTaskReadyForTestInTabManager }
+    options:
+            expose: true
+
+system_disapprove_task:
+    path:     /ajax/disapprove-task/
+    defaults: { _controller: AppBundle:Admin/Task:disapproveTask }
+    options:
+        expose: true
+
+system_ajax_get_task_pending_tab_mytask:
+    path:     /ajax/tasks-pending-tab-mytask
+    defaults: { _controller: AppBundle:Admin/Admin:getAjaxTaskPendingInTabMyTask }
+    options:
+            expose: true
+#end dashboard

@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="es" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="5">
+                <source>table.textselectcount</source>
+                <target>Show %var% row for page</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>table.noresult</source>
+                <target>It has not found any record</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>table.textnumberpage</source>
+                <target>Page %page% of %pages% (Total Records: %total%)</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>table.infoempty</source>
+                <target>Does not exist any record</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>table.infofiltered</source>
+                <target>(It filtered in a total of %max% records)</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>table.processing</source>
+                <target>Getting Information...</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>next</source>
+                <target>Next</target>
+            </trans-unit> 
+            <trans-unit id="12">
+                <source>previous</source>
+                <target>Previous</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>search</source>
+                <target>Search</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>case.record</source>
+                <target>Case Record</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>choose.option</source>
+                <target>Choose an option...</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>countries</source>
+                <target>Countries</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>provinces</source>
+                <target>Provinces</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>select.all</source>
+                <target>Select all</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>search</source>
+                <target>Search</target>
+            </trans-unit>
+            <trans-unit id="999">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="998">
+                <source><![CDATA[]]></source>
+                <target><![CDATA[]]></target>
+            </trans-unit>
+            
+        </body>
+    </file>
+</xliff>

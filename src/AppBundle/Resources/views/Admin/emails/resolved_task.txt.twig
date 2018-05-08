@@ -1,0 +1,11 @@
+Completed Task
+Hi, {{ task.userCreatedTask.name }}
+This task has been completed and is ready for test.
+Project: {{ project }}
+Task: {{ task.name }}
+Start Date: {{task.startTime|date('m/d/Y')}}
+End Date: {{task.endTime|date('m/d/Y')}}
+Created By: {{task.userCreatedTask}}
+Priority: {{task.priority}}
+Description: {{task.description}}
+

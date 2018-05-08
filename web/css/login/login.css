@@ -1,0 +1,84 @@
+.info-block-hc1 {
+    margin-bottom: 20px;
+}
+.info-block-hc1 i {
+    color: #72C02C;
+    float: left;
+    font-size: 30px;
+    margin: 7px 15px 0 0;
+}
+.info-block-in {
+    overflow: hidden;
+}
+.text-fb {
+    text-align: center;
+    margin-top: -12px;
+    font-size: 18px;
+}
+/*Button Facebook Style*/
+.btn-u.btn-u-fb {
+    background: #4862a3;
+}
+.btn-u.btn-u-fb:hover, 
+.btn-u.btn-u-fb:focus, 
+.btn-u.btn-u-fb:active, 
+.btn-u.btn-u-fb.active, 
+.open .dropdown-toggle.btn-u.btn-u-fb {
+    background: #5168a3;
+}
+/*Border Wings HC*/
+.border-wings-hc {
+    text-align: center;
+}
+.border-wings-hc span {
+    color: #999;
+    opacity: 1;
+    font-size: 18px;
+    padding: 0 10px;
+    position: relative;
+    margin-bottom: 15px;
+    display: inline-block;	
+}
+.border-wings-hc span:before,
+.border-wings-hc span:after {
+    top: 16px;
+    height: 1px;
+    width: 100%;
+    content: " ";
+    background: #ccc;
+    position: absolute;
+}
+.border-wings-hc span:before {
+    left: 100%;
+}
+.border-wings-hc span:after {
+    right: 100%;
+}
+/*Sign Up*/
+.counter-signup .counters{
+    background: none repeat scroll 0 0 #f8f8f8;
+    padding: 5px;
+    color: #888;
+    margin-bottom: 10px;
+}
+.counter-signup .counters span{
+    font-size: 27px;
+}
+.counter-signup .counters h4{
+    color: #888;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+.form-em-error{
+    color: #ee9393;
+    display: block;
+    font-size: 11px;
+    font-style: normal;
+    line-height: 15px;
+    margin-top: 6px;
+    padding: 0 1px;
+}
+.loading-input {
+    background: rgba(0, 0, 0, 0) url("../../img/ajax-loader.gif") no-repeat scroll 97% center !important;
+}
+

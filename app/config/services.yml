@@ -1,0 +1,14 @@
+services:   
+    intl.twig.extension:
+        class: Twig_Extensions_Extension_Intl
+        tags: [{ name: 'twig.extension' }]
+        
+    admin.menus:
+        class: AppBundle\Util\AdminMenus
+        arguments: [@router]
+    
+    twig.extension.taskit:
+        class: AppBundle\Twig\Extension\TaskitExtension
+        arguments: ['@session']
+        tags:
+          - { name: twig.extension }

@@ -1,0 +1,14 @@
+<div class="container col-md-12">
+    <ul class="nav nav-pills nav-my justify-content-center nav-tabs-responsive">
+        <li class="nav-item active"><a data-toggle="tab" href="#tab-manage">Manage</a></li>
+        <li class="nav-item"><a data-toggle="tab" href="#tab-mytask">My Task</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="tab-manage" class="tab-pane fade active in">
+            {% include '@App/Admin/dashboard/_tabManage.html.twig' %}
+        </div>
+        <div id="tab-mytask" class="tab-pane fade">
+            {% include '@App/Admin/dashboard/_tabMytask.html.twig' %}
+        </div>
+    </div>
+</div>

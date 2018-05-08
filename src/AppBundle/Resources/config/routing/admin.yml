@@ -1,0 +1,70 @@
+#user
+admin_users:
+    path:     /users/
+    defaults: { _controller: AppBundle:Admin/User:users }
+
+admin_get_ajax_users:
+    path:     /ajax/get-users/
+    defaults: { _controller: AppBundle:Admin/User:getAjaxUsers }
+    options:
+        expose: true
+
+admin_get_ajax_user:
+    path:     /ajax/get-user/
+    defaults: { _controller: AppBundle:Admin/User:getAjaxUser }
+    options:
+        expose: true
+
+admin_user_delete:
+    path:     /users/delete/{username}/
+    defaults: { _controller: AppBundle:Admin/User:deleteUser }
+
+admin_user_edit:
+    path:     /users/edit/{username}/
+    defaults: { _controller: AppBundle:Admin/User:editUser }
+
+admin_user_add:
+    path:     /users/add/
+    defaults: { _controller: AppBundle:Admin/User:addUser }
+#end user
+#proyect
+admin_proyects:
+    path:     /proyects/
+    defaults: { _controller: AppBundle:Admin/Proyect:proyect }
+
+admin_proyect_edit:
+    path:     /proyects/edit/{id}/
+    defaults: { _controller: AppBundle:Admin/Proyect:edit }
+
+admin_proyect_delete:
+    path:     /proyects/delete/{id}/
+    defaults: { _controller: AppBundle:Admin/Proyect:delete }
+
+admin_get_ajax_proyects:
+    path:     /ajax/get-proyects/
+    defaults: { _controller: AppBundle:Admin/Proyect:getAjaxProyects }
+    options:
+        expose: true
+
+admin_get_ajax_proyect:
+    path:     /ajax/get-proyect/
+    defaults: { _controller: AppBundle:Admin/Proyect:getAjaxProyect }
+    options:
+        expose: true
+
+admin_proyect_add:
+    path:     /proyects/add/
+    defaults: { _controller: AppBundle:Admin/Proyect:add }
+
+admin_get_ajax_proyect_save_change_status:
+    path:     /proyects/change-status/
+    defaults: { _controller: AppBundle:Admin/Proyect:changeStatusProyect }
+    options:
+        expose: true
+
+admin_get_ajax_proyect_change_status:
+    path:     /ajax/get-proyects-change-status/
+    defaults: { _controller: AppBundle:Admin/Proyect:getAjaxProyectChangeStatus }
+    options:
+        expose: true
+#end proyect

@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="es" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>field.required</source>
+                <target>This field is required.</target>
+            </trans-unit>            
+            <trans-unit id="2">
+                <source>email.invalid</source>
+                <target>Enter a valid email.</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>min.six</source>
+                <target>The password should have 6 characters at least.</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>pwd.same</source>
+                <target>The password should coincide.</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>image.error.type</source>
+                <target>El formato debe ser jpg, png o gif.</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>error.size</source>
+                <target>El tamaño máximo permitido es de %size%.</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>error.size.general</source>
+                <target>El archivo seleccionado supera el tamaño máximo permitido.</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>field.decimal</source>
+                <target>El valor permitido es un número decimal.</target>
+            </trans-unit>  
+            <trans-unit id="9">
+                <source>image.error.resolution</source>
+                <target>La imagen debe cumplir con la resolución establecida.</target>
+            </trans-unit>         
+            <trans-unit id="10">
+                <source>error.max</source>
+                <target>Este valor es demasiado largo.</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>length.two</source>
+                <target>Este campo debe tener dos caracteres.</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>field.digits</source>
+                <target>The allowed value is a whole number.</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>field.phone</source>
+                <target>Debe entrar un teléfono válido ej(+53 53151665).</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>pwd.min</source>
+                <target>La contraseña debe tener al menos 6 caracteres.</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>error.max.length</source>
+                <target>The maximum number of characters allowed is %length%.</target>
+            </trans-unit> 
+            <trans-unit id="16">
+                <source>error.resolution.frontimage</source>
+                <target>La resolución de la imagen debe ser de 750x550.</target>
+            </trans-unit> 
+            <trans-unit id="17">
+                <source>error.resolution.ownerimage</source>
+                <target>La resolución de la imagen debe ser de 136x130.</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>alphanumeric.error</source>
+                <target>Debe entrar solo letras y números.</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>error.max.capacity</source>
+                <target>La capacidad máxima debe ser un valor entre %min% y %max%.</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>without.classification</source>
+                <target>Debe clasificar este punto.</target>
+            </trans-unit>
+             <trans-unit id="21">
+                <source>error.levels</source>
+                <target>La cantidad de niveles debe ser un valor entre %min% y %max%.</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>error.specialCharacters</source>
+                <target><![CDATA[The following special characters are not allowed (\/:*?<>|$#@&^% ).]]></target>
+            </trans-unit>
+            <trans-unit id="999">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="998">
+                <source><![CDATA[]]></source>
+                <target><![CDATA[]]></target>
+            </trans-unit>            
+        </body>
+    </file>
+</xliff>

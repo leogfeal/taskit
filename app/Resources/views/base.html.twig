@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="{{app.request.locale}}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block meta %}{% endblock %}
+        <title>{% block title 'Taskit' %}</title>
+        <link href="{{asset('plugins/bootstrap/css/bootstrap.css')}}" type="text/css" rel="stylesheet"/>
+        {% block stylesheets %}{% endblock %}
+        <link rel="apple-touch-icon-precomposed" sizes="150x150" href="{{ asset('img/favicons/favicon-150x150.png') }}">
+        <link rel="apple-touch-icon-precomposed" sizes="32x32" href="{{ asset('img/favicons/favicon-32x32.png') }}">
+        <link rel="apple-touch-icon-precomposed" sizes="16x16" href="{{ asset('img/favicons/favicon-16x16.png') }}">
+        <link rel="shortcut icon" href="{{ asset('img/favicon/favicon32.png') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+            <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>            
+            <script src="{{asset('plugins/bootstrap/js/bootstrap.js')}}"></script>
+        {% endblock %}
+
+    </body>
+</html>

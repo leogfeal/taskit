@@ -1,0 +1,170 @@
+{% extends '@App/Admin/layout.html.twig' %}
+{% set title_name = 'Resolved task' %}
+{% block title title_name  ~ ' - Taskit' %}
+{% block stylesheets %}    
+    {{parent()}}
+    <link href="{{ asset('plugins/sky-forms-pro/skyforms/css/sky-forms.css') }}" type="text/css" rel="stylesheet"/>
+    <link href="{{ asset('plugins/sky-forms-pro/skyforms/custom/custom-sky-forms.css') }}" type="text/css" rel="stylesheet"/>
+    <style>
+        form.dropzone{
+            border: none;
+        }
+        #ui-datepicker-div{
+            background-color: white;
+        }
+    </style>
+    <link href="{{asset('plugins/dropzone/dropzone.css')}}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+{% block form_errors %}
+{% spaceless %}
+    {% if errors|length > 0 %}    
+        {% for error in errors %}
+            <label for="{{form.vars.id}}" class="margin-none">{{ error.message }}</label>
+        {% endfor %}    
+    {% endif %}
+{% endspaceless %}
+{% endblock form_errors %}     
+{% block content %}
+    <div class="div-disable-content">
+        <div class="disable-search">
+        </div>
+        <img alt="{{ 'loading' }}" id="loading" class="disable-img" src="{{ asset('img/ajax-loader1.gif') }}">
+    </div>
+    <div id="page-wrapper" class="wrapper-heigth">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">{{'Resolved task'}}</h1>
+                <ol class="breadcrumb pull-right">
+                    <li><a href="{{path('dashboard')}}">{{'main.panel'|trans({}, 'admin')}}</a></li>
+                    <li><a href="{{path('system_tasks_assigned')}}"> My Task</a></li>
+                    <li class="active">{{'Resolved Task'}}</li>
+                </ol>
+            </div>
+        </div>
+        <div>
+            <form name="appbundle_task" method="post" action="" class="form-horizontal dropzone dz-clickable" id="my-dropzone" novalidate="novalidate">
+                <div class="row">
+                    <div class="col-md-11">
+                        <div class="form-group">
+                            <div>
+                                <label>Note</label>:
+                            </div>
+                            <div>
+                                <textarea id="task-notes" name="appbundle_task[notes]" rows="6" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="dz-message" style="height:240px; border: 2px solid rgba(0, 0, 0, 0.3);">
+                        <h3>Upload Multiple Image By Click On Box</h3>
+                    </div>
+                </div>
+            </div>
+                <hr>
+                <div class="row">   
+                    <div class="col-sm-7">
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <input id="btn-submit-form" type="button" value="Save" class="btn btn-primary">
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            <input type="hidden" name="name-attached-removed" id="id-attached-removed">
+            </form>
+        </div>
+    </div>    
+{% endblock  %}
+{% block javascripts %}    
+    {{parent()}}
+    <script src="{{ asset('plugins/sky-forms-pro/skyforms/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('plugins/moment-with-locales.min.js') }}"></script>
+    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-easyui/jquery-easyui.min.js') }}"></script>
+    <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'validators' }) }}"></script>
+    <script src="{{asset('plugins/jquery-validation/js/jquery.validate.min.js')}}"></script>
+    <script src="{{ asset('plugins/dropzone/dropzone.js') }}"></script>
+    <script type="text/javascript">
+        //Dropzone.autoDiscover = false;
+    </script>
+    <script src="{{asset('plugins/jquery-validation/js/additional-methods.min.js')}}"></script>
+    <script src="{{asset('js/admin/task/taskFunctions.js')}}"></script>
+
+    <script>
+        task.settings.url_action = "{{ path('system_task_assigned_resolved',{id:id, default:default})}}";
+        task.init();
+        task.onValidate();
+        {%if action == 'New' %}
+            task.initDropzone();
+        {% else %}
+            Dropzone.options.myDropzone = { // The camelized version of the ID of the form element
+                // The configuration we've talked about above
+                url:'#',
+                previewsContainer: ".dz-message",
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                parallelUploads: 100,
+                maxFiles: 100,
+                addRemoveLinks: true,
+
+                // The setting up of the dropzone
+                init: function() {
+                    var myDropzone = this;
+                    {% for att in attached %}
+                        task.settings.real_names_attached[{{ loop.index0 }}] = '{{ att.attached }}';
+                        var mockFile = { name: '{{ att.name }}', size: 4096};
+                        myDropzone.options.addedfile.call(myDropzone, mockFile);
+                        myDropzone.createThumbnailFromUrl(mockFile, '{{ http_host ~ asset('img/attached/'~ att.attached) }}');
+                        //myDropzone.options.thumbnail.call(myDropzone, mockFile, "http://localhost/taskManage/web/img/attached/attached-5a2b4bf4ba29c.txt");
+                      $('div.dz-progress').remove();
+                    {% endfor %}
+
+                    // First change the button to actually tell Dropzone to process the queue.
+                    this.element.querySelector("#btn-submit-form").addEventListener("click", function(e) {
+                        // Make sure that the form isn't actually being sent.
+                        if($('form').valid()){
+                            $('.div-disable-content').show();
+                            $('form').attr('action', task.settings.url_action);
+                            if(myDropzone.getQueuedFiles().length == 0 ){
+
+                                $('form').submit();
+
+                            }
+                            else{
+                                e.preventDefault();
+                                e.stopPropagation();
+                                myDropzone.processQueue();
+
+                            }
+                        }
+                    });
+                    this.on("addedfile", function(file) {
+                        $('div.dz-progress').remove();
+                    });
+                    this.on("success", function(file) {
+                        window.location.href = Routing.generate('system_tasks_assigned');
+                    });
+                    this.on('removedfile', function (file) {
+                       var name = file.name;
+                       var temp = name.split('-');
+                       if(temp.length == 2 && temp[0] == 'attached' && !isNaN(temp[1])){
+                           var list_cant = task.settings.real_names_attached.length + 1;
+                           if(temp[1]<= list_cant){
+                               var value = $('#id-attached-removed').val();
+                               if(value == '')
+                                   value = task.settings.real_names_attached[temp[1]];
+                               else
+                                   value+=','+task.settings.real_names_attached[temp[1]];
+                               $('#id-attached-removed').val(value);
+                           }
+                       }
+
+                    });
+            }}
+        {% endif %}
+
+
+    </script>
+{% endblock %}

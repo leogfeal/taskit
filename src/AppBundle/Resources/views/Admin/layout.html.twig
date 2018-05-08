@@ -1,0 +1,88 @@
+{%extends '::base.html.twig'%}
+{% block title 'Dashboard'~' - Taskit' %}
+{% block stylesheets %}
+    <style>
+        footer {
+            position: relative;
+            margin-top: -40px; /* ponga en negativo el alto de su pie de p�gina para nuestro    ejemplo usamos 63, usted debe remplazarlo seg�n su dise�o   */
+            height: 40px;
+            clear:both;
+            width:100%;
+        }
+        .nav-header{
+            display: block;
+            padding: 3px 15px;
+            font-size: 11px;
+            font-weight: bold;
+            line-height: 20px;
+            color: #999999;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+        }
+        button.navbar-toggle{
+            display: none;
+        }
+    </style>
+    <link href="{{asset('css/admin/metisMenu.min.css')}}" type="text/css" rel="stylesheet"/>
+    <link href="{{asset('plugins/font-awesome/css/font-awesome.min.css')}}" type="text/css" rel="stylesheet"/>
+    <link href="{{asset('css/admin/sb-admin-2.css')}}" type="text/css" rel="stylesheet"/>
+    <link href="{{asset('css/admin/admin.css')}}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+{% block body %}
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top admin-nav-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand a-nav" href="{{path('dashboard')}}">
+                    <img class="pull-left" style="margin-top: -3%" alt="logo" width="150" height="50" src="{{ asset('img/logo_300x145.png') }}">
+                </a>
+            </div>
+            <ul class="nav navbar-top-links navbar-right">
+                {% include '@App/Admin/_top_menu.html.twig' %}
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> {{app.user.name}} <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{path('system_profile_edit',{username:app.user.username})}}"><i class="fa fa-gear fa-fw"></i> Edit profile</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="{{path('logout')}}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+			<!--{% include '@App/Admin/_left_menu.html.twig' %}-->
+        </nav>
+
+        {% block content %}
+        {% endblock %}
+        <br>
+        <footer>
+            <div class="footer">
+                <div class="text-center">Taskit © 2018 </div>
+            </div>
+        </footer>
+    </div>
+{% endblock %}
+{% block javascripts %}    
+    {{parent()}}
+    <script src="{{asset('js/admin/metisMenu.min.js')}}"></script>
+    <script src="{{asset('js/admin/sb-admin-2.js')}}"></script> 
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+    <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'admin_js' }) }}"></script>
+    <script src="{{ asset('js/admin/taskit.js') }}"></script>
+    <script>
+        $('#btn-login').click(function(){
+            $(location).attr('href','#');
+        });
+    </script>
+{% endblock %}

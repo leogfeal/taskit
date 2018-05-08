@@ -1,0 +1,270 @@
+{% extends 'AppBundle:Admin:layout.html.twig' %}
+{% block m_dashboard 'class="active"'%}
+{% block stylesheets %}
+    {{parent()}}
+    <link href="{{asset('plugins/data-tables/css/dataTables.bootstrap.css')}}" type="text/css" rel="stylesheet"/>
+    <link href="{{asset('plugins/data-tables/css/dataTables.responsive.css')}}" type="text/css" rel="stylesheet"/>
+    <style>
+        .hr-text{position:relative;/* font-size:12px; *//* line-height:20px; */text-align:left;text-transform:uppercase;}
+        .hr-text.hr-text-center{text-align:center}
+        .hr-text.hr-text-center>:first-child{padding-left:1em}
+        .hr-text.hr-text-right{text-align:right}
+        .hr-text.hr-text-right>:first-child{padding-left:1em;padding-right:0}
+        .hr-text:before{position:absolute;top:50%;display:block;content:"";width:100%;height:1px;background-color:#383838}
+        .hr-text>:first-child{position:relative;z-index:2;display:inline-block; padding-right:1em;/* color:#5c5c5c; */vertical-align:middle;background-color:white;}
+        li.list-proyect:hover {background-color: #eee;}
+        .chart, .chart-task{
+            display: block;
+            height: 150px;
+            width: 150px;
+            position: relative;
+            overflow: hidden;
+            float: left;
+            padding: -5%;
+        }
+        .media-my-body{
+            margin-top: 6%;
+        }
+        .justify-content-center,.nav-item {
+            -webkit-box-pack: center!important;
+            -ms-flex-pack: center!important;
+            justify-content: center!important;
+            flex-grow: 1;
+            text-align: center;
+            background-color: #F8F8F8;
+        }
+        .nav-my {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            padding-left: 0;
+            margin-bottom: 0;
+            list-style: none;
+        }
+        .progress{overflow: inherit!important;}
+        .label.label-outline {
+            background: 0 0;
+            border: 1px solid;
+        }
+        .label.label-outline.label-cerulean {
+            color: #00A3E3 !important;
+            border-color: #00A3E3;
+        }
+        .label.label-outline.label-success {
+            color: #84b547 !important;
+            border-color: #84b547;
+        }
+        .label-success{background-color: #5cb85c !importante;}
+        .disable-search-all-task{
+             z-index: 100;
+             width: 100%;
+             height: 70%;
+             opacity: 0.7;
+             background-color: #ffffff;
+             position: absolute;
+         }
+        .disable-img-all-task{
+            z-index: 200;
+            position: absolute;
+            top: 100px;
+        }
+        .div-disable-content-all-task{
+            display: none;
+            text-align: center;
+        }
+        .progress-bar {
+            float: inherit;
+            width: 0;
+            height: 100%;
+            font-size: 12px;
+            line-height: 20px;
+            color: #fff;
+            text-align: center;
+            background-color: #337ab7;
+            -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+            -webkit-transition: width .6s ease;
+            -o-transition: width .6s ease;
+            transition: width .6s ease;
+        }
+    </style>
+{%endblock%}
+{% block content %}
+    <div id="page-wrapper" style="min-height: 338px;">
+        {% include '@App/Admin/_alerts.html.twig' %}
+        <div class="row" style="padding-top: 10px">
+            <!-- START All Projects -->
+            <div class="col-lg-4 col-md-6 col-sm-6 m-b-2">
+                <div class="hr-text hr-text-left m-t-0 m-b-0">
+                    <h6 class="text-white"><strong>All Projects</strong>  <span class="m-l-1 badge badge-gray-lighter badge-outline">{{ information.amount_all_proyects }}</span></h6>
+                </div>
+                {% if information.show_proyect == true %}
+                    <div class="row">
+                            <div class="col-md-10">
+                                <div class="media">
+                                    <div class="chart"></div>
+                                    <div class="media-my-body">
+                                        <i class="m-l-1 fa fa-fw fa-circle" style="color: #86B34D"></i> <span class="text-white m-r-1">{{ information.proyects_amount_array.active }}</span> Active
+                                        <br>
+                                        <i class="m-l-1 fa fa-fw fa-circle" style="color: #ADCB86"></i> <span class="text-white m-r-1">{{ information.proyects_amount_array.inactive }}</span> Inactive
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                {% else %}
+                    <table class="table table-condensed table-hover" style="margin-left: 1%">
+                        <tbody>
+                        <tr>
+                            <td class="text-white b-a-0">Active</td>
+                            <td class="text-right b-a-0"><span class="label label-outline" style="background-color: #86B34D">0</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-white">Inactive</td>
+                            <td class="text-right"><span class="label label-outline" style="background-color: #ADCB86">0</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                {% endif %}
+
+            </div>
+            <!-- END All Projects -->
+
+
+            <!-- START All Tasks (4) -->
+            <div class="col-lg-4 col-md-6 col-sm-6 m-b-2">
+                <div class="hr-text hr-text-left m-t-0 m-b-0">
+                    <h6 class="text-white"><strong>Tasks</strong> <span class="m-l-1 badge badge-gray-lighter badge-outline zone-information-all-task">{{ information.amount_all_tasks }}</span></h6>
+                </div>
+                <div class="div-disable-content-all-task"><div class="disable-search-all-task"></div>
+                    <img alt="{{ 'loading' }}" id="loading" class="disable-img-all-task" src="{{ asset('img/ajax-loader - circle.gif') }}">
+                </div>
+                {% if information.show_chart_task == true %}
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="media">
+                                <div class="chart-task"></div>
+                                <div class="media-my-body zone-information-all-task-show-chart-task">
+                                    {% for task in information.task_amount_array %}
+                                        <i class="m-l-1 fa fa-fw fa-circle" style="color: {{ task.color }}"></i> <span class="text-white m-r-1">{{ task.amount }}</span> {{ task.name }}
+                                        <br>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <table class="table table-condensed table-hover" style="margin-left: 1%">
+                        <tbody id="zone-information-all-task-table">
+                            {% for task in information.task_amount_array %}
+                                <tr>
+                                    <td class="text-white b-a-0">{{ task.name }}</td>
+                                    <td class="text-right b-a-0"><span class="label label-outline" style="background-color: {{ task.color }}">0</span></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+            <!-- END All Tasks (4) -->
+
+            <!-- START My Stats -->
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                <div class="hr-text hr-text-left m-t-0 m-b-0">
+                    <h6 class="text-white"><strong>My Tasks</strong> <span class="m-l-1 badge badge-gray-lighter badge-outline">{{ information.amount_my_task }}</h6>
+                </div>
+                <div class="div-disable-content-all-task"><div class="disable-search-all-task"></div>
+                    <img alt="{{ 'loading' }}" id="loading" class="disable-img-all-task" src="{{ asset('img/ajax-loader - circle.gif') }}">
+                </div>
+                <table class="table table-condensed table-hover">
+
+                    <tbody id="zone-information-my-task-table" >
+                        {% for task in information.my_task_array %}
+                            <tr>
+                                <td class="text-white b-a-0">{{ task.name_my_task }}</td>
+                                <td class="text-right b-a-0"><span class="label label-outline" style="background-color: {{ task.color }}">{{ task.amount }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- END My Stats -->
+
+        </div>
+
+        {% include '@App/Admin/dashboard/_tabInformation.html.twig' %}
+        <div  class="modal fade bs-example-modal-lg" id="modalView" tabindex="-1" role="dialog" data-keyboard = 'false' data-backdrop = 'static' aria-labelledby="modalViewLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalViewLabel"></h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="my-ceter modal-loading"><i class="fa fa-spin fa-refresh fa-5x center-block"></i></div>
+                        <div class="ajax-info"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <a  id="a-modalDelete" href="#" type="button" class="btn btn-primary">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock  %}
+{% block javascripts %}
+    {{parent()}}
+    <script src="{{ asset('plugins/data-tables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('plugins/data-tables/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('plugins/data-tables/js/dataTables.bootstrap.js') }}"></script>
+    <script src="{{asset('plugins/highcharts/highcharts.js')}}"></script>
+    <script src="{{asset('plugins/moment.min.js')}}"></script>
+    <script src="{{asset('js/admin/dashboard.js')}}"></script>
+    <script>
+        Dashboard.settings.show_chart_task = '{{ information.show_chart_task }}';
+        function viewObject(id) {
+            $('#modalViewLabel').html('Task Details');
+            $('.modal-loading').show();
+            $('.ajax-info').empty();
+            $('#a-modalDelete').hide();
+            $.get(Routing.generate('admin_get_ajax_task'), {
+                'id': id
+            }, function(result) {
+                $('.modal-loading').hide();
+                $('.ajax-info').html(result);
+
+            });
+        }
+
+        {% if information.show_proyect == true %}
+            var data = [
+                    { name:"Active", y:{{ information.proyects_amount_array.active }}, color:"#86B34D" },
+                    { name:"Inactive", y:{{ information.proyects_amount_array.inactive }}, color:"#ADCB86" }
+                     ];
+            Dashboard.initZoneInformationProyects(data);
+        {% endif %}
+        {% if information.show_chart_task == true %}
+            var data = [];
+            {% for task in information.task_amount_array %}
+                var obj = {
+                    'name': '{{ task.name }}',
+                    'y': {{ task.amount }},
+                    'color':'{{ task.color }}'
+                };
+                data.push(obj);
+            {% endfor %}
+            Dashboard.initZoneInformationTasks(data);
+            Dashboard.initZoneTabManage();
+            Dashboard.initZoneTabMyTask();
+        {% endif %}
+    </script>
+{% endblock %}
+
+

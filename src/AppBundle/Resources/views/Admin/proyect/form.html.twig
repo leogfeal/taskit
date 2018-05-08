@@ -1,0 +1,170 @@
+{% extends '@App/Admin/layout.html.twig' %}
+{% set title_name = action=='New' ? 'Add project' : 'Edit project' %}
+{% block title title_name  ~ ' - Taskit' %}
+{% block stylesheets %}    
+    {{parent()}}
+    <link href="{{asset('plugins/jquery-easyui/easyui.css')}}" type="text/css" rel="stylesheet"/>
+    <link href="{{asset('plugins/jquery-easyui/icon.css')}}" type="text/css" rel="stylesheet"/>
+    <style type="text/css">
+        .products{
+            list-style:none;
+            padding:0px;
+            height:100%;
+        }
+        .products li{
+            display: inline;
+            float:left;
+            clear:none;
+            margin:10px;
+        }
+        .item{
+            display:inline;
+            text-decoration:none;
+        }
+        .item img{
+        }
+        .item p{
+            margin:0;
+            font-weight:bold;
+            text-align:center;
+            color:black;
+        }
+        .panel-header, .panel-body{
+            border-color:gainsboro; !important;
+        }
+        .cart{
+            right:0;
+            width:100%;
+            height:100%;
+        }
+    </style>
+{% endblock %}
+{% form_theme form _self %}
+{% block form_errors %}
+{% spaceless %}
+    {% if errors|length > 0 %}    
+        {% for error in errors %}
+            <label for="{{form.vars.id}}" class="margin-none">{{ error.message }}</label>
+        {% endfor %}    
+    {% endif %}
+{% endspaceless %}
+{% endblock form_errors %}     
+{% block content %}
+    <div id="page-wrapper" class="wrapper-heigth">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">{{action =='New'?'Add project' : 'Edit project'}}</h1>
+                <ol class="breadcrumb pull-right">
+                    <li><a href="{{path('dashboard')}}">{{'main.panel'|trans({}, 'admin')}}</a></li>
+                    <li><a href="{{path('admin_proyects')}}"> Projects</a></li>
+                    <li class="active">{{action =='New'?'Add project' : 'Edit project'}}</li>
+                </ol>
+            </div>
+        </div>
+        <div>
+            {{ form_start(form, {'class': 'form-horizontal', 'action': action =='New' ? path('admin_proyect_add') : path('admin_proyect_edit',{id:id}), 'attr': {'class': 'form-horizontal'}}) }}
+            <input type="hidden" id="appbundle_proyect_user_assigned" name="appbundle_proyect_extra[user_assigned]" value="{{ action=='New'?'':usersIds }}">
+            <div class="row col-md-offset-0">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <div>
+                                {{ form_label(form.name, 'Name',{'attr': {'class' : 'control-label'} }) }}:
+                            </div>
+                            <div>
+                                {{ form_widget(form.name, {'attr': {'class' : 'form-control'} }) }}
+                                {{ form_errors(form.name) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-md-offset-1">
+                        <div class="form-group">
+                            <div>
+                                <label>Description</label>:
+                            </div>
+                            <div>
+                                {{ form_widget(form.description, {'attr': {'class' : 'form-control'} }) }}
+                                {{ form_errors(form.description) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="row col-md-offset-0">
+                <div class="col-md-5">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-users fa-fw"></i> Users
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <ul class="products">
+                                    {% for user in users %}
+                                        <li class="item">
+                                            <a href="#">
+                                                <img src="{{ asset('img/anonymous85x79.jpg') }}"/>
+                                                <div>
+                                                    <p style="display: none;">{{ user.id }}</p>
+                                                    <p>{{ user.name }}</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+                <div class="col-md-5 col-md-offset-1">
+                    <div class="panel panel-default cart">
+                        <div class="panel-heading">
+                            <i class="fa fa-users fa-fw"></i> Assigned Users
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group" id="id-selected-user">
+                                {% if action == 'Edit' %}
+                                    {% for idUser in usersList %}
+                                        {% if idUser.rol != 'ROLE_ADMIN' %}
+                                            <a class="list-group-item" id='{{ 'user-' ~ idUser.id }}'>
+                                                <i class="fa fa-user fa-fw"></i> {{ idUser.name }}
+                                                <span class="pull-right text-muted small delete-user " style="color: red; cursor: pointer">
+                                                    <em>Delete</em>
+                                                </span>
+                                            </a>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+                </div>
+                <hr>
+                <div class="row">   
+                    <div class="col-sm-7">
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <input type="submit" value="Save" class="btn btn-primary">
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            {{ form_end(form, {'render_rest': true}) }}
+        </div>
+    </div>    
+{% endblock  %}
+{% block javascripts %}    
+    {{parent()}}
+    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-easyui/jquery-easyui.min.js') }}"></script>
+    <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'validators' }) }}"></script>
+    <script src="{{asset('plugins/jquery-validation/js/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('plugins/jquery-validation/js/additional-methods.min.js')}}"></script>
+    <script src="{{asset('js/admin/proyect/proyectFunctions.js')}}"></script>
+    <script>
+        proyect.init();
+        proyect.onValidate();
+    </script>
+{% endblock %}

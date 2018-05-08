@@ -1,0 +1,128 @@
+<div class="row" style="margin-top: 3%">
+    {% include '@App/Admin/dashboard/_modalCompleteTask.html.twig' %}
+    {% include '@App/Admin/dashboard/_modalDisapproveTask.html.twig' %}
+    <!-- START My Projects -->
+    <div class="col-md-3">
+    <div class="panel panel-default bg-gray-dark b-a-0">
+
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-sm-4 col-xs-4">Projects</div>
+            </div>
+        </div>
+
+        <!-- START Scroll Inside Panel -->
+        <ul class="list-group scroll-600 custom-scrollbar ps-container ps-theme-default ps-active-y" data-ps-id="25a7242a-fd66-bcc5-5b04-889024b08b1f">
+            <!-- START Project -->
+            {% for proyect in manage.proyects %}
+                <li class="list-group-item list-proyect no-bg b-t-0" style="cursor: pointer">
+                    <!-- START Media Task Name -->
+                    <div class="media m-t-0">
+                        <div class="media-body">
+                            <!-- START ID & Title Task -->
+                            <h5 class="m-b-1">{{ proyect.name }}</h5>
+                            <!-- END ID & Title Task -->
+                        </div>
+                        <div class="media-right media-middle">
+                            <span class="label label-success label-outline">Active</span>
+                        </div>
+                    </div>
+                    <!-- END Media Task Name -->
+                    <div class="progress b-r-a-0 m-t-0 m-b-1 h-3" id="project-{{ proyect.id }}">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ proyect.percent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ proyect.percent }}%;">
+                            <span class="sr-only bar-percent">{{ proyect.percent~'% Complete' }}60% Complete</span>
+                        </div>
+                        <div class="progress-information" style="float: right; margin-top: 2% ;position: inherit; display: inline">
+                            <span class="label label-success label-outline task-completed">{{ 'Task completed: '~proyect.complete_task~'/'~proyect.amount_task }}</span>
+                            <span class="label label-success label-outline task-percent">{{ proyect.percent~'%' }}</span>
+                        </div>
+                    </div>
+                </li>
+            <!-- END Project -->
+            {% endfor %}
+            {% if manage.proyects|length == 0 %}
+                <div class="alert alert-warning" style="margin-bottom: auto;">
+                    <i class="fa fa-warning"></i> There are no active projects for you.
+                </div>
+            {% endif %}
+
+            <!-- START Project -->
+            <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: -463px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail"><div class="ps-scrollbar-y" tabindex="0"></div></div></ul>
+        <!-- END Project -->
+    </div>
+    <!-- END My Tasks -->
+    </div>
+
+    <!-- START My Tasks -->
+    <div class="col-md-9">
+        <div class="panel panel-default no-bg b-a-2 panel-ready-for-test-tab-manager">
+
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-sm-4 col-xs-4">Tasks - <b>Ready for tested</b> <span class="m-l-1 badge badge-outline amount-task-ready-for-test" style="background-color: {{ manage.color_ready_for_test }}">{{ manage.task_ready_for_test|length }}</span></div>
+                </div>
+            </div>
+                <table class="table table-hover">
+                    <thead>
+
+                    <tr>
+                        <th class="small text-muted text-uppercase"><strong>Priority</strong></th>
+                        <th class="small text-muted text-uppercase"><strong>Task &amp; Project</strong></th>
+                        <th class="small text-muted text-uppercase"><strong>Date &amp; Days</strong></th>
+                        <th class="small text-muted text-uppercase"><strong>Assigned to</strong></th>
+                        <th class="small text-muted text-uppercase text-right"><strong>Actions</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody id="body-tab-manager-ready-for-test">
+                    <div class="my-ceter modal-loading-panel-ready-for-test-tab-manager" style="display: none"><i class="fa fa-spin fa-refresh fa-5x center-block"></i></div>
+                    <!-- START ROW Task -->
+                    {% for task in manage.task_ready_for_test %}
+                        {% if task.priority == 'Small' %}
+                            {% set color = '#84b547' %}
+                        {% elseif task.priority == 'Medium' %}
+                            {% set color = '#e76d3b' %}
+                        {% else %}
+                            {% set color = '#cc3e4a' %}
+                        {% endif %}
+                        <tr title="{{ task.description }}">
+                            <td class="v-a-m">
+                                <div style="display: flex">
+                                    <i class="fa fa-fw fa fa-circle" style="margin-top: 2%; color: {{ color }}"></i> {{ task.priority }}
+                                </div>
+                            </td>
+                            <td class="v-a-m">
+                               <span class="task-name">{{ task.task }}</span>
+
+                                <br>
+                               <span style="color: #000000" class="label label-cerulean label-outline">{{ task.proyect }}</span>
+                               <input type="hidden" value="{{ task.project_id }}" class="task-project-name">
+                            </td>
+                            <td>
+                                {{task.createdOn|date('m/d/Y')~' '}} <b>{{ get_dif_days(task.createdOn)}}</b>
+                            </td>
+                            <td class="user-assigned">
+                                <b>{{task.userAssigned}}</b>
+                            </td>
+                            <td class="text-right v-a-m">
+                                <div class="form-group-sm">
+                                    <button id="completeTask-{{ task.task_id }}" title="Completed Task" class="btn btn-xs btn-default completed-task"><i class="fa fa-check fa-fw"></i></button>
+                                    <a href="{{ path('system_task_edit',{id:task.task_id,default:1}) }}" title="Edit" class="btn btn-xs btn-default"><i class="fa fa-pencil fa-fw"></i></a>
+                                    <button id="disapproveTask-{{ task.task_id }}" title="Disapprove Task" class="btn btn-xs btn-default disapprove-Task"><i class="fa fa-times-circle fa-fw"></i></button>
+                                    <a href="#" title="Details" onclick="viewObject({{task.task_id  }})" class="btn btn-xs btn-default" data-toggle="modal" data-target="#modalView"><i class="fa fa-search fa-fw"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <!-- END ROW Task -->
+                    </tbody>
+                </table>
+            {% if manage.task_ready_for_test|length == 0 %}
+                <div class="alert alert-warning warning-panel-ready-for-test-tab-manager" style="margin-bottom: auto;">
+                    <i class="fa fa-warning"></i> There are no ready for tested tasks created by you
+                </div>
+            {% endif %}
+            <!-- END Scroll Inside Panel -->
+        </div>
+    </div>
+    <!-- END My Tasks -->
+</div>

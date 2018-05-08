@@ -1,0 +1,128 @@
+{% extends '@App/Admin/layout.html.twig' %}
+{% block title action =='New'?'Add user':'Edit user'~' - TaskManager' %}
+{% block stylesheets %}    
+    {{parent()}}
+    <link href="{{asset('plugins/jasny/css/bootstrap-fileupload.min.css')}}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+{% form_theme form _self %}
+{% block form_errors %}
+{% spaceless %}
+    {% if errors|length > 0 %}    
+        {% for error in errors %}
+            <label for="{{form.vars.id}}" class="margin-none">{{ error.message }}</label>
+        {% endfor %}    
+    {% endif %}
+{% endspaceless %}
+{% endblock form_errors %}     
+{% block content %}
+    <div id="page-wrapper" class="wrapper-heigth">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">{{action =='New'?'Add user':'Edit user'}}</h1>
+                <ol class="breadcrumb pull-right">
+                    <li><a href="{{path('dashboard')}}">{{'main.panel'|trans({}, 'admin')}}</a></li>
+                    <li><a href="{{path('admin_users')}}"> Users</a></li>
+                    <li class="active">{{action =='New'?'Add user':'Edit user'}}</li>
+                </ol>
+            </div>
+        </div>
+        <div>
+            {{ form_start(form, {'class': 'form-horizontal', 'action': action =='New' ? path('admin_user_add') : path('admin_user_edit',{username:username}), 'attr': {'class': 'form-horizontal'}}) }}
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">                                
+                                <label>Name:</label>
+                            </div>                      
+                            <div class="col-sm-8">
+                                {{form_widget(form.name, {'attr': {'class' : 'form-control'} })}}
+                                {{form_errors(form.name)}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                <label>Username</label>
+                            </div>
+                            <div class="col-sm-8">
+                                {{form_widget(form.username, {'attr': {'class' : 'form-control'} })}}
+                                {{form_errors(form.username)}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                <label>Password:</label>
+                             </div>                      
+                             <div class="col-sm-8">
+                                {{form_widget(form.password.first, {'attr': {'class' : 'form-control'} })}} 
+                                {{form_errors(form.password.first)}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                <label>Repeat Password:</label>
+                            </div>                      
+                            <div class="col-sm-8">
+                                {{form_widget(form.password.second, {'attr': {'class' : 'form-control'} })}} 
+                                {{form_errors(form.password.second)}}                    
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                <label>Email:</label>
+                            </div>
+                            <div class="col-sm-8">
+                                {{form_widget(form.email, {'attr': {'class' : 'form-control'} })}}
+                                {{form_errors(form.email)}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                <label>Address:</label>
+                            </div>
+                            <div class="col-sm-8">
+                                {{form_widget(form.address, {'attr': {'class' : 'form-control'} })}}
+                                {{form_errors(form.address)}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 control-label">
+                                <label>Phone:</label>
+                            </div>
+                            <div class="col-sm-8">
+                                {{form_widget(form.phone, {'attr': {'class' : 'form-control'} })}}
+                                {{form_errors(form.phone)}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">   
+                    <div class="col-sm-7">
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-4">
+                                <input type="submit" value="Save" class="btn btn-primary">
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            {{ form_end(form, {'render_rest': true}) }}
+        </div>
+    </div>    
+{% endblock  %}
+{% block javascripts %}    
+    {{parent()}}
+    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+    <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'validators' }) }}"></script>
+    <script src="{{asset('plugins/jasny/js/bootstrap-fileupload.min.js')}}"></script>
+    <script src="{{asset('plugins/jquery-validation/js/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('plugins/jquery-validation/js/additional-methods.min.js')}}"></script>
+    <script src="{{asset('js/admin/user/userFunctions.js')}}"></script>
+    <script>
+        {% if action == 'Edit' %}
+            user.settings.action = false;
+        {% endif %}
+        user.initUsers();
+
+    </script>
+
+{% endblock %}

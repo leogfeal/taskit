@@ -1,0 +1,18 @@
+{% set counts = app.request.session.get('counts') %}
+    <li class="dropdown">
+        <a href="{{path('dashboard')}}" {% if app.session.get('left_menu') == 'main'%}class="active"{% endif %}><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+    </li>
+    {% if is_granted('ROLE_ADMIN') %}
+        <li class="dropdown">
+            <a href="{{path('admin_users')}}" {% if app.session.get('left_menu') == 'users'%}class="active"{% endif %}{% if app.session.get('left_menu') == 'reports'%}class="active"{% endif %}><i class="fa fa-users fa-fw"></i> {{'users'|trans({}, 'admin')}}</a>
+        </li>
+        <li class="dropdown">
+            <a href="{{path('admin_proyects')}}" {% if app.session.get('left_menu') == 'proyects'%}class="active"{% endif %}{% if app.session.get('left_menu') == 'proyects'%}class="active"{% endif %}><i class="fa fa-bookmark fa-fw"></i> Projects</a>
+        </li>
+    {% endif %}
+    <li>
+        <a href="{{path('system_tasks_created')}}" {% if app.session.get('left_menu') == 'tasks_created' %}class="active"{% endif %}><i class="fa fa-tasks fa-fw"></i> Task</a>
+    </li>
+    <li>
+        <a href="{{path('system_tasks_assigned')}}" {% if app.session.get('left_menu') == 'tasks_assigned' %}class="active"{% endif %}><i class="fa fa-list-ol fa-fw"></i> My Task</a>
+    </li>

@@ -1,0 +1,29 @@
+<div  class="modal fade bs-example-modal-lg" id="modalResolvedTask" tabindex="-1" role="dialog" data-keyboard = 'false' data-backdrop = 'static' aria-labelledby="modalViewLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalLabelResolvedTask">Resolved Task</h4>
+      </div>
+
+      <div class="modal-body my-modal-body">
+        <div class="my-ceter modal-loading-resolved" style="display: none"><i class="fa fa-spin fa-refresh fa-5x center-block"></i></div>
+        <div class="info-resolved-task">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-info" role="alert">
+                        <div>If you want to solve the task and do not want to attach files click on <b>Resolved Task</b> otherwise click on <b>Edit Task</b></div>
+                    </div>
+                    <input type="hidden" id="modalIdResolvedTask" value = '-1'>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+         <a  id="a-modalResolvedTask" href="#" type="button" class="btn btn-primary">Resolved Task</a>
+         <a  id="a-modalEditResolvedTask" href="#" type="button" class="btn btn-primary">Edit Task</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

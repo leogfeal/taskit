@@ -1,0 +1,21 @@
+# This file is a "template" of what your parameters.yml file should look like
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: hostales_v2
+    database_user: root
+    database_password: null
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: es
+    secret: 9c379fc80ce36571d28912624b47d50e753f0528
+    database_path: null
+    web_dir: %kernel.root_dir%/../web/
+    #example [en,fr]
+    translator: [en]
+    email_noti_problem: managerhc@nauta.cu
+    email_noti_general: managerhc@nauta.cu
+

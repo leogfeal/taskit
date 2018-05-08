@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-lg-4 col-md-12 col-sm-12">
+        <p><b>Nombre:</b> {{proyect.name}}</p>
+        <p><b>Descripti&oacute;n:</b> {{proyect.description}}</p>
+        <p><b>Activo:</b> {{proyect.enabled ? '&#10004;' : '&#10008;'}}</p>
+
+        {%if proyect.users|length > 0%}
+            <b>Usuarios asignados:</b>
+                <p>
+                    {% for user in proyect.users%}
+                       <b>{{ loop.index }} - </b>  {{user.name}}<br>
+                    {%endfor%}
+                </p>
+        {%endif%}
+    </div>
+    <div class="col-lg-4 col-md-12 col-sm-12 col-lg-offset-1">
+        <div class="hr-text hr-text-left m-t-0 m-b-0">
+            <h5><b>Tasks</b> <span class="m-l-1 badge badge-gray-lighter badge-outline">{{ amountTask }}</span></h5>
+        </div>
+
+        <table class="table table-condensed table-hover">
+
+            <tbody>
+            {% for state in resumeTask %}
+                <tr>
+                    <td><b>{{ state.name }}</b></td>
+                    <td class="text-right b-a-0"><span style="background-color: {{ state.color }}" class="label label-outline">{{ state.amount }}</span>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+ </div>
+
