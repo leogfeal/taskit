@@ -54,6 +54,11 @@ class TaskController extends Controller {
             $where.= ($where != '')?' AND ':'';
             $where.= "p.id IN (".implode(',',$proyects).")";
         }
+        $priority = (isset($filter['priority']))?$filter['priority']:'';
+        if($priority != ''){
+            $where.= ($where != '')?' AND ':'';
+            $where.= "t.priority = '".$priority."'";
+        }
         $status = (isset($filter['states']))?$filter['states']:'';
         if($status != ''){
             $where.= ($where != '')?' AND ':'';
@@ -82,7 +87,6 @@ class TaskController extends Controller {
 
             $where.="t.start_time between '".$start_date."' and '".$end_date."'";
         }
-		
         $em = $this->getDoctrine()->getManager();
         $tasks = $em->getRepository('AppBundle:Task')->getTaskCreated($start, $length, $search['value'], $user_id, $where);
         $recordsFiltered = count($em->getRepository('AppBundle:Task')->getTaskCreated(0, 'all', $search['value'], $user_id, $where));
@@ -443,6 +447,11 @@ class TaskController extends Controller {
         if($proyects != ''){
             $where.= ($where != '')?' AND ':'';
             $where.= "p.id IN (".implode(',',$proyects).")";
+        }
+        $priority = (isset($filter['priority']))?$filter['priority']:'';
+        if($priority != ''){
+            $where.= ($where != '')?' AND ':'';
+            $where.= "t.priority = '".$priority."'";
         }
         $status = (isset($filter['states']))?$filter['states']:'';
         if($status != ''){
