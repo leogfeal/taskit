@@ -122,7 +122,7 @@ class Helpers
         return $datetime;
     }
 	
-	public static function getDatetimeByString($date, $format, $delimiter){
+    public static function getDatetimeByString($date, $format, $delimiter){
         $list_dates = explode($delimiter, $date);
         $list_format = explode($delimiter, $format);
         
@@ -240,6 +240,22 @@ class Helpers
             ->setBody($bodyHTML, 'text/html')
             ->addPart($bodyText, 'text/plain');
         return $message;
+    }
+    
+    public static function getProgressProject($resumenTask){
+        $information = array();
+        $complete = 0;
+        $total = 0;
+        $percent = 0;
+        foreach ($resumenTask as $values) {
+            $total+=$values['amount'];
+            if($values['name'] == 'Completed')
+                $complete = $values['amount'];
+        }
+        if($complete != 0 || $total != 0)
+            $percent = round($complete / $total * 100, 0);
+        $information = ['completed'=> $complete, 'total'=> $total, 'percent'=> $percent];
+        return $information;
     }
 
     /**

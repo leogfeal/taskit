@@ -3,6 +3,8 @@ var proyect = function () {
         init: function () {
             eventDraggable();
             eventDeleteUserAssigned();
+            eventDbClick();
+            $('ul.products').css('display', 'block');
         },
         onValidate: function (){
             $('form').validate({
@@ -34,12 +36,20 @@ var proyect = function () {
             eventShowModalDetails();
             eventChangeStatus();
         },
+        initEditProyect: function (ids){
+            uploadUserSelecteds(ids);
+        },
         settings: {}
     };
-
-
+    
+    function uploadUserSelecteds(ids){
+        var list_ids = ids.split(',');
+        for(var i=0; i<list_ids.length; i++)
+            $('#'+list_ids[i]).css('display', 'none');
+    }
+    
     function eventShowModalDetails(){
-        $(document).on('click', 'span.Enabled-Disable', function (e) {
+        $(document).on('click', 'a.btn-change-status', function (e) {
             var span_ids = $(this).attr('id').split('-');
             var proyect_id = span_ids[1];
             var status = (span_ids[2] == 0)?'Disable':'Enable';
@@ -158,6 +168,16 @@ var proyect = function () {
             list_id = a_id.split('-');
             deleteUserToForm(list_id[1]);
             a.remove();
+            $('#'+list_id[1]).css('display', 'block');
+        });
+    }
+    
+    function eventDbClick(){
+        $('li.item').dblclick(function(e){
+            var name = $(this).find('p:eq(1)').html();
+            var id =  $(this).attr('id');
+            $('#'+id).css('display', 'none');
+            addUser(name,id);
         });
     }
 
@@ -184,6 +204,7 @@ var proyect = function () {
                 onDrop:function(e,source){
                     var id = $(source).find('p:eq(0)').html();
                     var name = $(source).find('p:eq(1)').html();
+                    $('#'+id).css('display', 'none');
                     addUser(name, id);
                 }
             });

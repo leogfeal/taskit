@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col-lg-4 col-md-12 col-sm-12">
-        <p><b>Nombre:</b> {{proyect.name}}</p>
-        <p><b>Descripti&oacute;n:</b> {{proyect.description}}</p>
-        <p><b>Activo:</b> {{proyect.enabled ? '&#10004;' : '&#10008;'}}</p>
+        <p><b>Project:</b> {{proyect.name}}</p>
+        <p><b>Description:</b> {{proyect.description}}</p>
+        <p><b>Active:</b> {{proyect.enabled ? '&#10004;' : '&#10008;'}}</p>
 
         {%if proyect.users|length > 0%}
-            <b>Usuarios asignados:</b>
+            <b>Team:</b>
                 <p>
                     {% for user in proyect.users%}
                        <b>{{ loop.index }} - </b>  {{user.name}}<br>

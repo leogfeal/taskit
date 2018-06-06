@@ -1,6 +1,7 @@
 var dataTableColumns = [
     { "data": "name" },
     { "data": "description" },
+    { "data": "progress" },
     { "data": "created_time" },
     { "data": "enabled" },
     { "data": "enabled_disable" },

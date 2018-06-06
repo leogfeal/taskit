@@ -92,14 +92,14 @@
                 <div class="col-md-5">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-users fa-fw"></i> Users
+                            <i class="fa fa-users fa-fw"></i> Team
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="list-group">
-                                <ul class="products">
+                                <ul class="products" style="display: none">
                                     {% for user in users %}
-                                        <li class="item">
+                                        <li class="item" id="{{ user.id }}">
                                             <a href="#">
                                                 <img src="{{ asset('img/anonymous85x79.jpg') }}"/>
                                                 <div>
@@ -164,7 +164,11 @@
     <script src="{{asset('plugins/jquery-validation/js/additional-methods.min.js')}}"></script>
     <script src="{{asset('js/admin/proyect/proyectFunctions.js')}}"></script>
     <script>
+        {% if action == 'Edit'%}
+            proyect.initEditProyect('{{usersIds}}');
+        {%endif%}
         proyect.init();
         proyect.onValidate();
+            
     </script>
 {% endblock %}

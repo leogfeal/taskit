@@ -12,7 +12,7 @@
         </div>
 
         <!-- START Scroll Inside Panel -->
-        <ul class="list-group scroll-600 custom-scrollbar ps-container ps-theme-default ps-active-y" data-ps-id="25a7242a-fd66-bcc5-5b04-889024b08b1f">
+        <ul class="list-group ps-container scroll-500 custom-scrollbar " data-ps-id="25a7242a-fd66-bcc5-5b04-889024b08b1f">
             <!-- START Project -->
             {% for proyect in manage.proyects %}
                 <li class="list-group-item list-proyect no-bg b-t-0" style="cursor: pointer">
@@ -45,9 +45,7 @@
                     <i class="fa fa-warning"></i> There are no active projects for you.
                 </div>
             {% endif %}
-
-            <!-- START Project -->
-            <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: -463px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail"><div class="ps-scrollbar-y" tabindex="0"></div></div></ul>
+        </ul>
         <!-- END Project -->
     </div>
     <!-- END My Tasks -->
@@ -62,9 +60,9 @@
                     <div class="col-sm-4 col-xs-4">Tasks - <b>Ready for tested</b> <span class="m-l-1 badge badge-outline amount-task-ready-for-test" style="background-color: {{ manage.color_ready_for_test }}">{{ manage.task_ready_for_test|length }}</span></div>
                 </div>
             </div>
-                <table class="table table-hover">
-                    <thead>
-
+                <div id="no-more-tables" class="ps-container scroll-500 custom-scrollbar">
+                <table class="col-md-12 table-bordered table-striped table-condensed cf">
+                    <thead class="cf">
                     <tr>
                         <th class="small text-muted text-uppercase"><strong>Priority</strong></th>
                         <th class="small text-muted text-uppercase"><strong>Task &amp; Project</strong></th>
@@ -85,25 +83,25 @@
                             {% set color = '#cc3e4a' %}
                         {% endif %}
                         <tr title="{{ task.description }}">
-                            <td class="v-a-m">
+                            <td data-title="Priority" class="v-a-m">
                                 <div style="display: flex">
                                     <i class="fa fa-fw fa fa-circle" style="margin-top: 2%; color: {{ color }}"></i> {{ task.priority }}
                                 </div>
                             </td>
-                            <td class="v-a-m">
+                            <td data-title="Task & Project" class="v-a-m">
                                <span class="task-name">{{ task.task }}</span>
 
                                 <br>
                                <span style="color: #000000" class="label label-cerulean label-outline">{{ task.proyect }}</span>
                                <input type="hidden" value="{{ task.project_id }}" class="task-project-name">
                             </td>
-                            <td>
+                            <td data-title="Date & Days">
                                 {{task.createdOn|date('m/d/Y')~' '}} <b>{{ get_dif_days(task.createdOn)}}</b>
                             </td>
-                            <td class="user-assigned">
+                            <td data-title="Assigned to" class="user-assigned">
                                 <b>{{task.userAssigned}}</b>
                             </td>
-                            <td class="text-right v-a-m">
+                            <td data-title="Actions" class="text-right v-a-m">
                                 <div class="form-group-sm">
                                     <button id="completeTask-{{ task.task_id }}" title="Completed Task" class="btn btn-xs btn-default completed-task"><i class="fa fa-check fa-fw"></i></button>
                                     <a href="{{ path('system_task_edit',{id:task.task_id,default:1}) }}" title="Edit" class="btn btn-xs btn-default"><i class="fa fa-pencil fa-fw"></i></a>
@@ -116,11 +114,12 @@
                     <!-- END ROW Task -->
                     </tbody>
                 </table>
-            {% if manage.task_ready_for_test|length == 0 %}
-                <div class="alert alert-warning warning-panel-ready-for-test-tab-manager" style="margin-bottom: auto;">
-                    <i class="fa fa-warning"></i> There are no ready for tested tasks created by you
+                    {% if manage.task_ready_for_test|length == 0 %}
+                        <div class="alert alert-warning warning-panel-ready-for-test-tab-manager" style="margin-bottom: auto;">
+                            <i class="fa fa-warning"></i> There are no ready for tested tasks created by you
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
             <!-- END Scroll Inside Panel -->
         </div>
     </div>

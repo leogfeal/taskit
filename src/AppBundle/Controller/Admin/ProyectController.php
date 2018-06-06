@@ -38,11 +38,29 @@ class ProyectController extends Controller {
 
             $proyects[$i]['created_time'] = $proyects[$i]['created_time']->format('m/d/Y');
             $links = $adminMenus->buildMenuInline($menuInit);
+            
+            $description_length = strlen($proyects[$i]['description']);
+            $description = $proyects[$i]['description'];
+            if($description_length > 50)
+                $description = substr($description,0,50).'...';
+        
+            $progress_info = Helpers::getProgressProject($em->getRepository('AppBundle:Task')->getResumeCountTaskByStatus($proyects[$i]['id']));
+            $proyects[$i]['description'] = $description;
+            $proyects[$i]['progress'] = '<div class="progress b-r-a-0 m-t-0 m-b-1 h-3" id="project-4">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="'.$progress_info['percent'].'" aria-valuemin="0" aria-valuemax="100" style="width: '.$progress_info['percent'].'%;">
+                            <span class="sr-only bar-percent">0% Complete60% Complete</span>
+                        </div>
+                        <div class="progress-information" style="float: right; margin-top: 2% ;position: inherit; display: inline">
+                            <span class="label label-success label-outline task-completed">Task completed: '.$progress_info['completed'].'/'.$progress_info['total'].'</span>
+                            <span class="label label-success label-outline task-percent">'.$progress_info['percent'].'%</span>
+                        </div>
+                    </div>';
             $proyects[$i]['actions'] = $links;
             $state = ($proyects[$i]['enabled'])?'0':'1';
             $id_changeStatus = 'changeStatus-'.$proyects[$i]['id'].'-'.$state;
-            $proyects[$i]['enabled_disable'] = ($proyects[$i]['enabled'])? "<span id='".$id_changeStatus."' style='cursor: pointer' class='Enabled-Disable fa ".AdminMenusIcon::DISABLE." fa-1x'></span>" : "<span id='".$id_changeStatus."'  style='cursor: pointer' class='Enabled-Disable fa ".AdminMenusIcon::ENABLE." fa-1x'></span>";
-            $proyects[$i]['enabled'] = ($proyects[$i]['enabled'])?'Enabled':'Disabled';
+            $icon_status = ($proyects[$i]['enabled'])?'fa fa-toggle-on':'fa fa-toggle-off';
+            $proyects[$i]['enabled_disable'] = '<a href="#" id="'.$id_changeStatus.'" class="btn-change-status '.$icon_status.' fa-3x margin-top--2"></a>';
+            $proyects[$i]['enabled'] = ($proyects[$i]['enabled'])?'<span class="label label-success">ENABLED</span>':'<span class="label label-default">DISABLED</span>';
         }
         $info = array();
         $info['draw'] = (int) $request->get('draw');
