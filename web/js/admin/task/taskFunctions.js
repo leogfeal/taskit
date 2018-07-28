@@ -1,7 +1,8 @@
 var task = function () {
     return {
         init: function () {
-            initDatapicker('#appbundle_task_end_time')
+            initDatapicker('#appbundle_task_end_time');
+            initDatapicker('#appbundle_task_start_time');
         },
         initDropzone: function () {
             Dropzone.options.myDropzone = { // The camelized version of the ID of the form element
@@ -63,6 +64,7 @@ var task = function () {
                     },
                     'appbundle_task[state]': 'required',
                     'appbundle_task[end_time]': 'required',
+                    'appbundle_task[start_time]': 'required',
                     'appbundle_task[priority]': 'required'
                 },
                 messages: {
@@ -73,6 +75,7 @@ var task = function () {
                     },
                     'appbundle_task[state]': Translator.trans('field.required', {}, 'validators'),
                     'appbundle_task[end_time]': Translator.trans('field.required', {}, 'validators'),
+                    'appbundle_task[start_time]': Translator.trans('field.required', {}, 'validators'),
                     'appbundle_task[priority]': Translator.trans('field.required', {}, 'validators')
                 },
                 unhighlight: function(element) {
@@ -83,21 +86,73 @@ var task = function () {
             });
         },
         initTasks: function () {
-			initDaterangepicker();
-			initMultiselect();
-			btnSearch();
+            initDaterangepicker();
+            initMultiselect();
+            btnSearch();
             fnViewModalNotes();
             fnShowModalCompleteTask();
             fnCompleteTask();
             fnShowModalDisapproveTask();
             fnDisapproveTask();
+            eventDropdownMenuFrequency();
 		},
-		settings: {
+	settings: {
+            action:'',
             url_action:'',
             real_names_attached: new Array(),
             search_url:''
         }
     };
+    
+    function eventDropdownMenuFrequency(){
+        $(document).on("click", ".dropdown-menu li", function () {
+            var li = $(this);
+            var button = $(this).parent().parent().find('button');
+            var ul = $(this).parent();
+            var a = $(this).find('a');
+            var i = $(this).find('i');
+            
+            var i_class = i.attr('class');
+            var table = '#data-table';
+            var aData =  taskit.getRowData($(this),table);
+
+            swal({
+                title: "Are you sure?",
+                text: "You want change frequency to "+$(this).find('a').text(),
+                icon: "info",
+                closeOnClickOutside: false,
+                button: {
+                    text: "OK",
+                    closeModal: false,
+                },
+
+              })
+              .then((willDelete) => {
+                if (willDelete) { 
+                    $.post(Routing.generate('system_change_frequency_task'), {
+                    'frequency': a.attr('data-id'),
+                    'task': aData.id
+                    }, function(result) {
+                        if(result.response){
+                             swal.stopLoading();
+                             swal.close();
+                             swal("The frequency of the task has changed!!!", {
+                                icon: "success",
+                             });
+                            button.html("<i class='fa fa-fw fa fa-circle "+i_class.replace('fa fa-fw fa fa-circle', '')+"'></i>  "+a.text()+"  <span class='caret'></span>");
+                            ul.find('li').removeClass('disabled'); 
+                            li.addClass('disabled');
+                        }
+                        else{
+                            swal("Oops: An error has occurred!!!", {
+                                icon: "error",
+                            });
+                        }
+                    });     
+                }
+              });
+        });
+    }
 
     function fnShowModalDisapproveTask(){
         $(document).on("click", ".disapproveInCreateTask", function () {
@@ -171,7 +226,7 @@ var task = function () {
         });
     }
 	
-	function initDaterangepicker(){
+    function initDaterangepicker(){
 		 $('#checkbox-createdOn').prop('checked', false);
 		 $('.daterange').daterangepicker();
 		 enableDisableCreatedOn();
@@ -191,21 +246,21 @@ var task = function () {
         });
     }
 	
-	function initMultiselect(){
-		var msg_user = ['Select a user...', 'users'];
-	    ConfigMultiSelect('#filter_user_created_task', msg_user, 'empty');
+    function initMultiselect(){
+            var msg_user = ['Select a user...', 'users'];
+        ConfigMultiSelect('#filter_user_created_task', msg_user, 'empty');
 
-        var msg_user = ['Select a user...', 'users'];
-        ConfigMultiSelect('#filter_user_assigned_to', msg_user, 'empty');
-		
-		var msg_state = ['Select a status', 'status'];
-	    ConfigMultiSelect('#filter_states', msg_state, 'empty');
-		
-		var msg_proyect = ['Select a project', 'projects'];
-	    ConfigMultiSelect('#filter_proyect', msg_proyect, 'empty');
-	}
-	
-	function ConfigMultiSelect(id, text, idComponent) {
+    var msg_user = ['Select a user...', 'users'];
+    ConfigMultiSelect('#filter_user_assigned_to', msg_user, 'empty');
+
+            var msg_state = ['Select a status', 'status'];
+        ConfigMultiSelect('#filter_states', msg_state, 'empty');
+
+            var msg_proyect = ['Select a project', 'projects'];
+        ConfigMultiSelect('#filter_proyect', msg_proyect, 'empty');
+    }
+	 
+    function ConfigMultiSelect(id, text, idComponent) {
         $(id).multiselect({
             buttonWidth: '100%',
             maxHeight: 200,
@@ -256,16 +311,32 @@ var task = function () {
     {
         date = new Date();
         moment.locale('en');
-        $(id).datepicker({
-            dateFormat: "mm-dd-yy",
-            prevText: '<i class="fa fa-angle-left"></i>',
-            nextText: '<i class="fa fa-angle-right"></i>',
-            dayNamesMin: moment.weekdaysMin(),
-            monthNames: moment.months(),
-            dayNames: moment.weekdays(),
-            minDate:0
+        if(id == '#appbundle_task_start_time'){
+            $(id).datepicker({
+                dateFormat: "mm-dd-yy",
+                prevText: '<i class="fa fa-angle-left"></i>',
+                nextText: '<i class="fa fa-angle-right"></i>',
+                dayNamesMin: moment.weekdaysMin(),
+                monthNames: moment.months(),
+                dayNames: moment.weekdays(),
+                maxDate: 0,
+            });
+            if(task.settings.action == 'New')
+                $( id ).datepicker( "setDate", date );
 
-        });
+        }
+        else{
+            $(id).datepicker({
+                dateFormat: "mm-dd-yy",
+                prevText: '<i class="fa fa-angle-left"></i>',
+                nextText: '<i class="fa fa-angle-right"></i>',
+                dayNamesMin: moment.weekdaysMin(),
+                monthNames: moment.months(),
+                dayNames: moment.weekdays(),
+                minDate:0
+            });
+        }
+        
     }
 	
 	function getFormSerialize(){

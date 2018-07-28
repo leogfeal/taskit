@@ -101,7 +101,7 @@ class TaskController extends Controller {
             $inactive = 'disabled';
             $menuInit = new AdminMenusInit($translator->trans('options', array(), 'admin'), $tasks[$i]['id']);
             if($tasks[$i]['state_id'] == 3){
-                $menuInit->addModal('Complete Task', AdminMenusIcon::COMPLETETASK, 'completedInCreateTask');
+                $menuInit->addModal('Completed Task', AdminMenusIcon::COMPLETETASK, 'completedInCreateTask');
                 $menuInit->addModal('Disapprove Task', AdminMenusIcon::DISAPPROVETASK, 'disapproveInCreateTask');
             }
             if($tasks[$i]['state_id'] != 4){
@@ -111,14 +111,15 @@ class TaskController extends Controller {
             if($tasks[$i]['enabled']){
                 $inactive = '';
                 $menuInit
-                    ->addMenu('Details', AdminMenusIcon::SEARCH, null);
+                    ->addMenu('Details', AdminMenusIcon::SEARCH, null)
+                    ->addMenu('Delete', AdminMenusIcon::TRASH, 'system_task_delete', array('id' => $tasks[$i]['id']));
+
                 $links = $adminMenus->buildMenuInline($menuInit);
             }
             else{
                 $links = '<b style="font-style:'.$style.'">INACTIVE</b>';
             }
-
-
+           
             $tasks[$i]['actions'] = $links;
             $tasks[$i]['proyect'] = '<p style="font-style:'.$style.'">'.$tasks[$i]['proyect'].'</p>';
             $tasks[$i]['name'] = '<p style="font-style:'.$style.'">'.$tasks[$i]['name'].'</p>';
@@ -129,7 +130,13 @@ class TaskController extends Controller {
             $tasks[$i]['start_time'] = '<p style="font-style:'.$style.'">'.$start_time.'</p>';
             $tasks[$i]['end_time'] = '<p style="font-style:'.$style.'">'.$tasks[$i]['end_time']->format('m-d-Y').'</p>';
             $tasks[$i]['priority'] = '<p style="font-style:'.$style.'">'.$tasks[$i]['priority'].'</p>';
-
+            
+            if($tasks[$i]['frequency_enable']){
+                $tasks[$i]['frequency'] = $this->buildSelectFrequency($tasks[$i]['frequency_id']);
+            }
+            else{
+                $tasks[$i]['frequency'] = '';
+            }
             $description = $this->container->get('twig')->render('@App/Admin/_popover.html.twig', array(
                 'description' => $tasks[$i]['description'],
                 'inactive' => $inactive
@@ -183,27 +190,26 @@ class TaskController extends Controller {
         if ($request->getMethod() == 'POST') {
             $data = $request->get('appbundle_task');
             $endTime = Helpers::getObjectDateTime($data['end_time'], '-');
+            $startTime = Helpers::getObjectDateTime($data['start_time'], '-');
             $proyect = $em->getRepository('AppBundle:Proyect')->findOneById($data['proyect']);
             $task->setProyect($proyect);
             $form->handleRequest($request);
-
-			
+	    
+            $task->setFrequencyEnable(1);
             $user = $em->getRepository('AppBundle:User')->findOneById($this->getUser()->getId());
-            $startTime = new \DateTime('now');
             $task->setStartTime($startTime);
             $task->setEndTime($endTime);
             $task->setUserCreatedTask($user);
-
-			$status = 2;
-			if(!$task->getUser()){
-				$status = 1;
+            $status = 2;
+            if(!$task->getUser()){
+		$status = 1;
                 $task->setStartTime(null);
-			}
+	    }
 
-			$status_obj = $em->getRepository('AppBundle:State')->findOneById($status);
-			$task->setState($status_obj);
-			$status_obj->addTask($task);
-			$em->persist($status_obj);
+            $status_obj = $em->getRepository('AppBundle:State')->findOneById($status);
+            $task->setState($status_obj);
+            $status_obj->addTask($task);
+            $em->persist($status_obj);
             $em->persist($task);
             $name = $task->getName();
             $em->flush();
@@ -246,6 +252,7 @@ class TaskController extends Controller {
         $attached = $task->getAttached();
         $taskType = new TaskType();
         $lastStartTime = $task->getStartTime();
+        $task->setStartTime(($task->getStartTime())?$task->getStartTime()->format('m-d-Y'):'');
         $task->setEndTime($task->getEndTime()->format('m-d-Y'));
 
         $proyects_list = $em->getRepository('AppBundle:Proyect')->findAll();
@@ -264,8 +271,10 @@ class TaskController extends Controller {
             $form->handleRequest($request);
             $data = $request->get('appbundle_task');
             $endTime = Helpers::getObjectDateTime($data['end_time'], '-');
+            $startTime = Helpers::getObjectDateTime($data['start_time'], '-');
             $task->setEndTime($endTime);
-
+            $task->setStartTime($startTime);
+            
             $name = $task->getName();
             $dir = $this->container->getParameter('web_dir');
 
@@ -281,7 +290,7 @@ class TaskController extends Controller {
             }
             $proyect = $em->getRepository('AppBundle:Proyect')->findOneById($task->getProyect());
             if($lastStartTime == null && $task->getUser() != null)
-                $task->setStartTime(new \DateTime('now'));
+                $task->setStartTime($startTime);
 
             if($task->getUser() != null && $lastUser == null && ($task->getState()->getId() == 1 ||  $task->getState()->getId() == 2 || $task->getState()->getId() == 3)){//new task
                 $status = $em->getRepository('AppBundle:State')->findOneById(2);
@@ -349,6 +358,33 @@ class TaskController extends Controller {
             'default' => $default
         ));
     }
+    
+    public function deleteAction(Request $request, $id) {
+        $em = $this->getDoctrine()->getManager();
+        $task = $em->getRepository('AppBundle:Task')->findOneById($id);
+
+        if (!$task)
+            return Helpers::error404($this, 'Task not found', 'Back Tasks', 'fa fa-tasks fa-fw', $this->generateUrl('system_tasks_created'));
+
+        $dir_image_web = $this->container->getParameter('web_dir_attached');
+        $attacheds = $task->getAttached();
+        foreach($attacheds as $attached){
+            $attached_repeat = $em->getRepository('AppBundle:Attached')->getRepeatAttached($attached->getAttached(),$id);
+            if(count($attached_repeat) == 0){
+                $file = $dir_image_web . $attached->getAttached();
+                if (file_exists($file)){
+                    @unlink($file);
+                }
+            }
+        }        
+        
+        $task_name = $task->getName();
+        $em->remove($task);
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('info', 'Task <b>'.$task_name.'</b> has been deleted.');
+        return $this->redirect($this->generateUrl('system_tasks_created'));
+    }
 
     public function completeTaskAction(Request $request){
         $task_id = $request->get('id', false);
@@ -413,6 +449,29 @@ class TaskController extends Controller {
             $em->flush();
         }
         //$this->get('session')->getFlashBag()->add('info', 'Task <b>'.$task->getName().'</b> has been disapproved.');
+        return new \Symfony\Component\HttpFoundation\JsonResponse(array('response' => true));
+    }
+    
+    public function changeFrequencyAction(Request $request){
+        $frequency_id = $request->get('frequency', false);
+        $task_id = $request->get('task', false);
+
+        if (!$task_id || !$frequency_id)
+            return new \Symfony\Component\HttpFoundation\JsonResponse(array('response' => false));
+
+        $em = $this->getDoctrine()->getManager();
+        $task = $em->getRepository('AppBundle:Task')->findOneById($task_id);
+        $frequency = $em->getRepository('AppBundle:Frequency')->findOneById($frequency_id);
+        if (!$task)
+            return new \Symfony\Component\HttpFoundation\JsonResponse(array('response' => false));
+
+        $today = new \DateTime('now');
+        $task->setFrequencyDate($today);
+        
+        $task->setFrequency($frequency);
+
+        $em->persist($task);
+        $em->flush();
         return new \Symfony\Component\HttpFoundation\JsonResponse(array('response' => true));
     }
 
@@ -657,6 +716,33 @@ class TaskController extends Controller {
         $info['data'] = $notes;
 
         return new \Symfony\Component\HttpFoundation\JsonResponse($info);
+    }
+    
+    private function buildSelectFrequency($id){
+        $em = $this->getDoctrine()->getManager();
+        $frequencies = $em->getRepository('AppBundle:Frequency')->findAll();
+        
+        $select = "<div class='dropdown'>";
+        $button = "<button class='btn btn-default btn-sm dropdown-toggle' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+            <i class='fa fa-fw fa fa-circle text-default'></i> Disabled <span class='caret'></span>
+        </button>";
+        $li = '';
+        $li_default = "<ul class='dropdown-menu'> <li class='disabled'><a data-id = '-1' href='javascript: void(0)'><i class='fa fa-fw fa-circle text-default  m-r-1'></i> Disabled</a></li>";
+        $flag = false;
+        foreach($frequencies as $frequency){
+            $disabled = '';
+            if($frequency->getId() == $id){
+                $disabled = "class='disabled'";
+                $flag = true;
+                $li_default = "<ul class='dropdown-menu'> <li><a data-id = '-1' href='javascript: void(0)'><i class='fa fa-fw fa-circle text-default  m-r-1'></i> Disabled</a></li>";
+                $button = "<button class='btn btn-default btn-sm dropdown-toggle' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                        <i class='fa fa-fw fa fa-circle ".$frequency->getClassCss()."'></i>". $frequency->getName()." <span class='caret'></span></button>";
+            }
+            $li.= "<li ".$disabled."><a data-id='".$frequency->getId()."' href='javascript: void(0)'><i class='fa fa-fw fa-circle ".$frequency->getClassCss()." m-r-1'></i> ".$frequency->getName()." </a></li>";
+        }
+        $bottom = "</ul></div>";
+        $dropdown = $select.$button.$li_default.$li.$bottom;
+        return $dropdown;
     }
 
 }

@@ -13,4 +13,15 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  * repository methods below.
  */
 class AttachedRepository extends EntityRepository {
+    public function getRepeatAttached($attached_name, $task_id) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+            SELECT a
+            FROM AppBundle:Attached a JOIN a.task t where t.id !=:task_id and a.attached =:attached_name 
+        ');
+        $query->setParameter('task_id', $task_id);
+        $query->setParameter('attached_name', $attached_name);
+
+        return $query->getResult();
+    }
 }

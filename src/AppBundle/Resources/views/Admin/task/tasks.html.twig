@@ -44,6 +44,7 @@
                             <th>Start date</th>
                             <th>End date</th>
                             <th>Priority</th>
+                            <th>Frequency</th>
                             <th>Description</th>
                             <th class="all">Actions</th>
                         </tr>
@@ -200,15 +201,16 @@
         <script src="{{ asset('plugins/data-tables/js/dataTables.bootstrap.js') }}"></script>
         <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
         <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'admin_js' }) }}"></script>
-		<script src="{{asset('plugins/bootstrap-daterangepicker/moment.min.js')}}"></script>
-		<script src="{{asset('plugins/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-		<script src="{{ asset('plugins/bootstrap-multiselect/js/bootstrap-multiselect.js') }}"></script>
+        <script src="{{asset('plugins/bootstrap-daterangepicker/moment.min.js')}}"></script>
+        <script src="{{asset('plugins/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+        <script src="{{ asset('plugins/bootstrap-multiselect/js/bootstrap-multiselect.js') }}"></script>
+        <script src="{{ asset('plugins/sweetalert/sweetalert.min.js') }}"></script>
         <script src="{{ asset('js/admin/task/taskList.js')}}"></script>
 		<script src="{{ asset('js/admin/task/taskFunctions.js')}}"></script>
         <script src="{{ asset('js/admin/listObject.js') }}"></script>
         <script>
             task.settings.search_url = Routing.generate('system_get_ajax_tasks_created');
-			task.initTasks();
+            task.initTasks();
             {% if role_admin == false %}
                 $('#filter_user_created_task').prop('disabled', true);
             {% endif %}

@@ -1,8 +1,7 @@
 $(document).ready(function() {
     $("textarea").css("display", "block");
     var selector = "textarea";
-    try {selector = ids_textareas;} catch (e) {}
-        
+    try {selector = ids_textareas;} catch (e) {}  
     tinymce.init({
         selector: selector,
         plugins: [

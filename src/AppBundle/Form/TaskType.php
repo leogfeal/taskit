@@ -29,7 +29,11 @@ class TaskType extends AbstractType
                 'required' => false,
                 'max_length' => 250
             ))
+            ->add('instructions', 'textarea', array(
+                'required' => false
+            ))     
             ->add('end_time', 'text')
+            ->add('start_time', 'text')
             ->add('user')
             ->add('proyect')
             ->add('proyect', 'choice', array(

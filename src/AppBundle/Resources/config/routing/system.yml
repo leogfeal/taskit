@@ -33,6 +33,10 @@ system_task_edit:
     options:
             expose: true
 
+system_task_delete:    
+    path:     /tasks/delete/{id}/
+    defaults: { _controller: AppBundle:Admin/Task:delete } 
+
 admin_get_ajax_task:
     path:     /ajax/get-task/
     defaults: { _controller: AppBundle:Admin/Task:getAjaxTask }
@@ -42,6 +46,12 @@ admin_get_ajax_task:
 system_profile_edit:
     path:     /profile/edit/{username}/
     defaults: { _controller: AppBundle:Admin/User:editProfile }
+
+system_change_frequency_task:
+    path:     /ajax/change-frequency-task/
+    defaults: { _controller: AppBundle:Admin/Task:changeFrequency }
+    options:
+        expose: true
 #end task
 #task assigned
 system_tasks_assigned:

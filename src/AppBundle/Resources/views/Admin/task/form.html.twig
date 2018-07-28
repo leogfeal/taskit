@@ -82,7 +82,7 @@
             </div>
         </div>
         <div>
-            {{ form_start(form, {'class': 'form-horizontal','attr': {'class': 'form-horizontal dropzone', 'id':'my-dropzone'}}) }}
+            {{ form_start(form, {'class': 'form-horizontal','attr': {'class': 'form-horizontal dropzone', 'id':'my-dropzone','autocomplete':'off'}}) }}
             <div class="row">
                     <div class="col-md-5">
                         <div class="form-group">
@@ -135,11 +135,14 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <div>
-                            <label>Description</label>:
+                            <label>Date start</label>:
                         </div>
-                        <div>
-                            {{ form_widget(form.description, {'attr': {'class' : 'form-control', 'rows':4} }) }}
-                            {{ form_errors(form.description) }}
+                        <div class="col-md-5 input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text fa fa-calendar" id=""></span>
+                            </div>
+                            {{ form_widget(form.start_time, {'attr': {'class' : 'form-control', 'style':'width: initial'} }) }}
+                            {{ form_errors(form.start_time) }}
                         </div>
                     </div>
                 </div>
@@ -158,6 +161,30 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <div>
+                            <label>Description</label>:
+                        </div>
+                        <div>
+                            {{ form_widget(form.description, {'attr': {'class' : 'form-control', 'rows':12} }) }}
+                            {{ form_errors(form.description) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 col-md-offset-1">
+                    <div class="form-group">
+                        <div>
+                            <label>Instructions</label>:
+                        </div>
+                        <div>
+                            {{ form_widget(form.instructions, {'attr': {'class' : 'form-control', 'style': 'resize:none; display:none', 'rows':7} }) }}
+                            {{ form_errors(form.instructions) }}
+                        </div>
+                    </div>
+                </div>
+            </div>            
             {% if action == 'Edit' %}
                 <div class="row">
                     <div class="col-md-11">
@@ -196,6 +223,11 @@
 {% endblock  %}
 {% block javascripts %}    
     {{parent()}}
+    <script>
+        var ids_textareas = "textarea#appbundle_task_instructions";
+    </script>
+    <script src="{{ asset('plugins/tinymce/tinymce.min.js') }}"></script>    
+    <script src="{{ asset('js/admin/objectTinyMCE.js') }}"></script>
     <script src="{{ asset('plugins/sky-forms-pro/skyforms/js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('plugins/moment-with-locales.min.js') }}"></script>
     <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
@@ -210,6 +242,7 @@
     <script src="{{asset('js/admin/task/taskFunctions.js')}}"></script>
 
     <script>
+        task.settings.action = "{{action}}";
         task.settings.url_action = "{{ action == 'New' ? path('system_task_add') : path('system_task_edit',{id:id,default:default})}}";
         task.init();
         task.onValidate();

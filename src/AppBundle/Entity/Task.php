@@ -38,6 +38,13 @@ class Task {
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="instructions", type="text", nullable=true)
+     */
+    private $instructions;
 
     /**
      * @var \DateTime
@@ -94,6 +101,31 @@ class Task {
      * })
      */
     private $proyect;
+    
+     /**
+     * @var \Frequency
+     *
+     * @ORM\ManyToOne(targetEntity="Frequency", inversedBy="tasks", cascade={"persist"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="frequency", referencedColumnName="id", onDelete="Cascade", nullable=true)
+     * })
+     */
+    private $frequency;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="frecuency_date", type="date", nullable=true)
+     * @Assert\Date()
+     */
+    private $frequency_date;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="frequency_enable", type="boolean")
+     */
+    private $frequency_enable;
 
     /**
      * @ORM\OneToMany(targetEntity="TaskNote", mappedBy="task", cascade={"persist"})
@@ -224,6 +256,26 @@ class Task {
     public function getDescription() {
         return $this->description;
     }
+    
+    /**
+     * Set instructions
+     *
+     * @param string $instructions
+     * @return Task
+     */
+    public function setInstructions($instructions) {
+        $this->instructions = $instructions;
+        return $this;
+    }
+
+    /**
+     * Get instructions
+     *
+     * @return string
+     */
+    public function getInstructions() {
+        return $this->instructions;
+    }
 
     /**
      * Constructor
@@ -295,6 +347,10 @@ class Task {
     public function getUserCreatedTask() {
         return $this->user_created_task;
     }
+    
+    public function setAttached(\Doctrine\Common\Collections\Collection $attached){
+        $this->attached = $attached;
+    }
 
     /**
      * Add attached
@@ -362,6 +418,66 @@ class Task {
 
     public function getObjProyect() {
         return $this->proyect;
+    }
+    
+    /**
+     * Set frequency
+     *
+     * @param \AppBundle\Entity\Frequency $frequency OR NULL
+     * @return Task
+     */
+    public function setFrequency($frequency) {
+        $this->frequency = $frequency;
+        return $this;
+    }
+
+    /**
+     * Get frequency
+     *
+     * @return \AppBundle\Entity\Frequency
+     */
+    public function getFrequency() {
+        return $this->frequency;
+    }
+    
+    /**
+     * Set frequency_date
+     *
+     * @param datetime $frequency_date
+     * @return Task
+     */
+    public function setFrequencyDate($frequency_date) {
+        $this->frequency_date = $frequency_date;
+        return $this;
+    }
+
+    /**
+     * Get frequency_date
+     *
+     * @return datetime
+     */
+    public function getFrequencyDate() {
+        return $this->frequency_date;
+    }
+    
+    /**
+     * Set frequency_enable
+     *
+     * @param boolean $frequency_enable
+     * @return Task
+     */
+    public function setFrequencyEnable($frequency_enable) {
+        $this->frequency_enable = $frequency_enable;
+        return $this;
+    }
+
+    /**
+     * Get frequency_enable
+     *
+     * @return boolean
+     */
+    public function getFrequencyEnable() {
+        return $this->frequency_enable;
     }
 
     /**

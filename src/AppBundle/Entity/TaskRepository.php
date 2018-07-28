@@ -56,8 +56,8 @@ class TaskRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query = $em->createQuery('
             SELECT t.id, t.name, u.name as user_created, ua.name as user_assigned, t.start_time, t.end_time, s.name as state, t.priority, p.name as proyect,
-            t.description, s.id as state_id, p.enabled
-            FROM AppBundle:Task t JOIN t.user_created_task u LEFT JOIN t.user ua JOIN t.state s JOIN t.proyect p
+            t.description, s.id as state_id, p.enabled, t.frequency_enable, f.id as frequency_id, f.name as frequency
+            FROM AppBundle:Task t JOIN t.user_created_task u LEFT JOIN t.user ua JOIN t.state s JOIN t.proyect p LEFT JOIN t.frequency f
             ' . $searchDQL . '
             GROUP BY t.id
             ORDER BY s.id, t.id DESC
@@ -314,6 +314,16 @@ class TaskRepository extends EntityRepository {
             $query->setParameter('enabled', $proyectStatus);
 
         return $query->getArrayResult();
+    }
+    
+    public function getTaskWithFrequencyActive(){
+        $em = $this->getEntityManager();
+        $query = $em->createQuery('
+            SELECT t,f
+            FROM AppBundle:Task t LEFT JOIN t.frequency f
+            WHERE t.frequency_enable = 1 AND t.frequency is not null AND t.frequency_date is not null
+        ');
+        return $query->getResult();
     }
 
 }

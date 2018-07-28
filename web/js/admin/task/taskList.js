@@ -7,6 +7,7 @@ var dataTableColumns = [
     { "data": "start_time" },
     { "data": "end_time" },
     { "data": "priority" },
+    { "data": "frequency" },
     { "data": "description" },
     { "data": "actions" }
  ];

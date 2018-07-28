@@ -257,6 +257,13 @@ class Helpers
         $information = ['completed'=> $complete, 'total'=> $total, 'percent'=> $percent];
         return $information;
     }
+    
+    public static function getDateByTime($time, $date){
+	$newDate = strtotime ( $time , strtotime ( $date->format('Y-m-d') ) ) ;
+	$newDate = date( 'Y-m-j' , $newDate );
+        $newDateTime = new \DateTime($newDate);
+	return $newDateTime;
+    }
 
     /**
      * Return a new response 404setAuditstype
